@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15/06/2024 11:11:39 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sys.model.Producto" table="PRODUCTO" schema="dbo" catalog="FACTURACION" optimistic-lock="version">
+        <id name="codproducto" type="int">
+            <column name="CODPRODUCTO" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombreproducto" type="string">
+            <column name="NOMBREPRODUCTO" length="75" not-null="true" />
+        </property>
+        <property name="precioventa" type="big_decimal">
+            <column name="PRECIOVENTA" precision="10" not-null="true" />
+        </property>
+        <property name="stockminimo" type="int">
+            <column name="STOCKMINIMO" not-null="true" />
+        </property>
+        <property name="stockactual" type="int">
+            <column name="STOCKACTUAL" not-null="true" />
+        </property>
+        <property name="codigobarra" type="string">
+            <column name="CODIGOBARRA" length="50" />
+        </property>
+        <set name="detallefacturas" table="DETALLEFACTURA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CODPRODUCTO" not-null="true" />
+            </key>
+            <one-to-many class="sys.model.Detallefactura" />
+        </set>
+    </class>
+</hibernate-mapping>

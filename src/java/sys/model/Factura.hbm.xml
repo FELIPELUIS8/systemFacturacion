@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 15/06/2024 11:11:39 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="sys.model.Factura" table="FACTURA" schema="dbo" catalog="FACTURACION" optimistic-lock="version">
+        <id name="codfactura" type="int">
+            <column name="CODFACTURA" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="cliente" class="sys.model.Cliente" fetch="select">
+            <column name="CODCLIENTE" not-null="true" />
+        </many-to-one>
+        <many-to-one name="vendedor" class="sys.model.Vendedor" fetch="select">
+            <column name="CODVENDEDOR" not-null="true" />
+        </many-to-one>
+        <property name="numerofactura" type="string">
+            <column name="NUMEROFACTURA" length="10" not-null="true" />
+        </property>
+        <property name="totalventa" type="big_decimal">
+            <column name="TOTALVENTA" precision="10" />
+        </property>
+        <property name="fecharegistro" type="timestamp">
+            <column name="FECHAREGISTRO" length="23" />
+        </property>
+        <set name="detallefacturas" table="DETALLEFACTURA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CODFACTURA" not-null="true" />
+            </key>
+            <one-to-many class="sys.model.Detallefactura" />
+        </set>
+    </class>
+</hibernate-mapping>
