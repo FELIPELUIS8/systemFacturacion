@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="FACTURACION" match-schema="dbo"/>
+  <table-filter match-name="PRODUCTO"/>
+  <table-filter match-name="FACTURA"/>
+  <table-filter match-name="DETALLEFACTURA"/>
+  <table-filter match-name="VENDEDOR"/>
+  <table-filter match-name="CLIENTE"/>
+</hibernate-reverse-engineering>

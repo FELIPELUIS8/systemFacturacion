@@ -12,14 +12,14 @@
             <ui:define name="content">
                 <h1>Datos del cliente</h1>
                 <h:form id="formPrincipal">
-                    <p:commandButton value="Nuevo Cliente" actionListener="#{clienteBean.prepararNuevoCliente}"
+                    <p:commandButton value="Nuevo Cliente" actionListener="#{clienteBean.prepararNuevoCliente()}"
                                      oncomplete="PF('dialogNuevoCliente').show();"
                                      update=":formNuevoCliente"/>
 
                 </h:form>
                 <h:form id="formMostrarClientes">
                     <p:dataTable id="tablaClientes" paginator="true" paginatorPosition="top"
-                                 var="ct"  value="#{clienteBean.cliente}" emptyMessage="No hay datos de clientes">
+                                 var= "ct"  value="#{clienteBean.listaCliente}" emptyMessage="No hay datos de clientes">
                         <p:column headerText="Codigo">
                             <h:outputText value="#{ct.codcliente}"/> 
                         </p:column>                                 
@@ -50,6 +50,7 @@
                     <p:dialog id="digNuevoCliente" widgetVar="dialogNuevoCliente" resizable="false" showEffect="explode"
                               hideEffect="explode" modal="true">
                         <p:panelGrid columns="2" style="margin: 0 auto;">
+                            
                             <p:outputLabel value="Nombre"/>
                             <p:inputText value="#{clienteBean.cliente.nombres}"/>
 
@@ -61,8 +62,6 @@
 
                             <p:outputLabel value="Direccion"/>
                             <p:inputText value="#{clienteBean.cliente.dirrecion}"/>
-
-
 
                         </p:panelGrid>
                         <p:commandButton value="Guardar" actionListener="#{clienteBean.nuevoCliente()}"
