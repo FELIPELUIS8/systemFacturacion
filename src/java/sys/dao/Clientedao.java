@@ -17,5 +17,5 @@ public interface Clientedao {
     public List<Cliente> listarClientes();
     public void newCliente(Cliente cliente);
     public void updateCliente(Cliente cliente);
-    public void deleteCliente(Cliente cliente);
+    public void deleteCliente(Cliente cliente); 
 }

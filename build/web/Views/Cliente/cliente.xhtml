@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
 
@@ -17,6 +18,8 @@
                                      update=":formNuevoCliente"/>
 
                 </h:form>
+
+
                 <h:form id="formMostrarClientes">
                     <p:dataTable id="tablaClientes" paginator="true" paginatorPosition="top"
                                  var= "ct"  value="#{clienteBean.listaCliente}" emptyMessage="No hay datos de clientes">
@@ -36,11 +39,20 @@
                         </p:column>
 
                         <p:column headerText="Modificar">
-                            <p:commandButton value="Modificar"/>
+                            <p:commandButton value="Modificar" oncomplete="PF('dialogModificarCliente').show();"
+                                             update=":formModificarCliente">
+                                <f:setPropertyActionListener target="#{clienteBean.cliente}" value="#{ct}"/>
+
+
+                            </p:commandButton>
                         </p:column>
 
                         <p:column headerText="Eliminar">
-                            <p:commandButton value="Eliminar"/>
+                            <p:commandButton value="Eliminar" oncomplete="PF('dialogEliminarCliente').show();"
+                                             update=":formEliminarCliente">
+                                <f:setPropertyActionListener target="#{clienteBean.cliente}" value="#{ct}"/>
+
+                            </p:commandButton>
                         </p:column>
                     </p:dataTable>
 
@@ -50,7 +62,7 @@
                     <p:dialog id="digNuevoCliente" widgetVar="dialogNuevoCliente" resizable="false" showEffect="explode"
                               hideEffect="explode" modal="true">
                         <p:panelGrid columns="2" style="margin: 0 auto;">
-                            
+
                             <p:outputLabel value="Nombre"/>
                             <p:inputText value="#{clienteBean.cliente.nombres}"/>
 
@@ -69,6 +81,47 @@
                                          oncomplete="PF('dialogNuevoCliente').hide();"/>
 
                         <p:commandButton value="Cancelar" oncomplete="PF('dialogNuevoCliente').hide();"/>
+                    </p:dialog>
+                </h:form>
+
+
+                <h:form id="formModificarCliente">
+                    <p:dialog id="digModificarCliente" widgetVar="dialogModificarCliente" resizable="false" showEffect="explode"
+                              hideEffect="explode" modal="true">
+                        <p:panelGrid columns="2" style="margin: 0 auto;">
+
+                            <p:outputLabel value="Nombre"/>
+                            <p:inputText value="#{clienteBean.cliente.nombres}"/>
+
+                            <p:outputLabel value="Apellidos"/>
+                            <p:inputText value="#{clienteBean.cliente.apellidos}"/>
+
+                            <p:outputLabel value="Celular"/>
+                            <p:inputText value="#{clienteBean.cliente.celular}"/>
+
+                            <p:outputLabel value="Direccion"/>
+                            <p:inputText value="#{clienteBean.cliente.dirrecion}"/>
+
+                        </p:panelGrid>
+                        <p:commandButton value="Guardar" actionListener="#{clienteBean.modificarCliente()}"
+                                         update=":formMostrarClientes:tablaClientes"
+                                         oncomplete="PF('dialogModificarCliente').hide();"/>
+
+                        <p:commandButton value="Cancelar" oncomplete="PF('dialogModificarCliente').hide();"/>
+                    </p:dialog>
+                </h:form>
+
+                <h:form id="formEliminarCliente">
+                    <p:dialog id="digEliminarCliente" widgetVar="dialogEliminarCliente" resizable="false" showEffect="explode"
+                              hideEffect="explode" modal="true">
+
+                        <h:outputText value="Quieres eliminar este registro?"/>
+
+                        <p:commandButton value="Si" actionListener="#{clienteBean.eliminarCliente()}"
+                                         update=":formMostrarClientes:tablaClientes"
+                                         oncomplete="PF('dialogEliminarCliente').hide();"/>
+
+                        <p:commandButton value="No" oncomplete="PF('dialogEliminarCliente').hide();"/>
                     </p:dialog>
                 </h:form>
             </ui:define>

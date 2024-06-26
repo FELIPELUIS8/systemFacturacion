@@ -20,11 +20,11 @@
         <property name="dirrecion" type="string">
             <column name="DIRRECION" length="150" not-null="true" />
         </property>
-        <!--set name="facturas" table="FACTURA" inverse="true" lazy="true" fetch="select">
+        <set name="facturas" table="FACTURA" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="CODCLIENTE" not-null="true" />
             </key>
             <one-to-many class="sys.model.Factura" />
-        </set-->
+        </set>
     </class>
 </hibernate-mapping>

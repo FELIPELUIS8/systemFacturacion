@@ -19,6 +19,7 @@ import sys.util.HibernateUtil;
  *
  * @author Luis Felipe Cantero
  */
+
 public class Clientedaoimp implements Clientedao {
 
     @Override
@@ -57,10 +58,11 @@ public class Clientedaoimp implements Clientedao {
     @Override
     public void updateCliente(Cliente cliente) {
          Session session = null;
+         
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.update(cliente);
+            session.merge(cliente);//colocar marge en vez de update 
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -73,16 +75,28 @@ public class Clientedaoimp implements Clientedao {
     }
 
     @Override
+    // forma correcta de implementar el metodo deletecliente
     public void deleteCliente(Cliente cliente) {
-         Session session = null;
+        Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.delete(cliente);
-            session.getTransaction().commit();
+
+            // Cargar la entidad Cliente antes de eliminar
+            cliente = (Cliente) session.get(Cliente.class, cliente.getCodcliente());
+
+            if (cliente != null) {
+                session.delete(cliente);
+                session.getTransaction().commit();
+            } else {
+                System.out.println("Cliente no encontrado para eliminar.");
+                // Manejo de error o mensaje adecuado
+            }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            session.getTransaction().rollback();
+            System.out.println("Error al eliminar cliente: " + e.getMessage());
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
         } finally {
             if (session != null) {
                 session.close();

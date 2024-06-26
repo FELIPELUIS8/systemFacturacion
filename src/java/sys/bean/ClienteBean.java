@@ -18,6 +18,7 @@ import sys.model.Cliente;
  */
 @ManagedBean
 @ViewScoped
+
 public class ClienteBean {
 
     private List<Cliente> listaCliente;
@@ -50,7 +51,6 @@ public class ClienteBean {
     }
     public void nuevoCliente(){
         Clientedao cDao = new Clientedaoimp();
-        System.out.println("Cliente-->"+cliente);
         cDao.newCliente(cliente);
     }
      public void modificarCliente(){

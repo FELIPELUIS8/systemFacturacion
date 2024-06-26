@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CLIENTE")
+
 public class Cliente  implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +27,7 @@ public class Cliente  implements java.io.Serializable {
      private String apellidos;
      private String celular;
      private String dirrecion;
-     //private Set<Factura> facturas = new HashSet<Factura>(0);
+     private Set<Factura> facturas = new HashSet<Factura>(0);
 
     public Cliente() {
     }
@@ -45,7 +46,7 @@ public class Cliente  implements java.io.Serializable {
        this.apellidos = apellidos;
        this.celular = celular;
        this.dirrecion = dirrecion;
-       //this.facturas = facturas;
+       this.facturas = facturas;
     }
    
     public int getCodcliente() {
@@ -83,13 +84,13 @@ public class Cliente  implements java.io.Serializable {
     public void setDirrecion(String dirrecion) {
         this.dirrecion = dirrecion;
     }
-//    public Set<Factura> getFacturas() {
-//        return this.facturas;
-//    }
-//    
-//    public void setFacturas(Set<Factura> facturas) {
-//        this.facturas = facturas;
-//    }
+    public Set<Factura> getFacturas() {
+        return this.facturas;
+    }
+    
+    public void setFacturas(Set<Factura> facturas) {
+        this.facturas = facturas;
+    }
 
 
 
