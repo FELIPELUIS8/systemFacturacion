@@ -5,6 +5,7 @@
  */
 package sys.bean;
 
+import java.io.Serializable;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -19,12 +20,13 @@ import sys.model.Cliente;
 @ManagedBean
 @ViewScoped
 
-public class ClienteBean {
-
+public class ClienteBean implements Serializable{
+ private static final long serialVersionUID = 1L; // ID de serialización
     private List<Cliente> listaCliente;
     private Cliente cliente;
 
     public ClienteBean() {
+        cliente = new Cliente();
     }
    
 

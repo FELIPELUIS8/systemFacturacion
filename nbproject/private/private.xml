@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/web/Plantilla/plantilla1.xhtml</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/bean/ClienteBean.java</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/imp/Clientedaoimp.java</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/bean/VendedorBean.java</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/imp/Vendedordaoimp.java</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/web/Views/Cliente/cliente.xhtml</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/web/Views/Vendedor/Vendedor.xhtml</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/dao/Vendedordao.java</file>
         </group>
     </open-files>
 </project-private>

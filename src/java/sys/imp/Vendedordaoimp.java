@@ -6,27 +6,24 @@
 package sys.imp;
 
 import java.util.List;
-
-import org.hibernate.Hibernate;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import sys.dao.Clientedao;
-import sys.model.Cliente;
+import sys.dao.Vendedordao;
+import sys.model.Vendedor;
 import sys.util.HibernateUtil;
 
 /**
  *
  * @author Luis Felipe Cantero
  */
-public class Clientedaoimp implements Clientedao {
+public class Vendedordaoimp implements Vendedordao{
 
     @Override
-    public List<Cliente> listarClientes() {
-        List<Cliente> lista = null;
+    public List<Vendedor> listarVendedor() {
+        List<Vendedor> lista = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction t = session.beginTransaction();
-        String hql = "FROM Cliente";
+        String hql = "FROM Vendedor";
         try {
             lista = session.createQuery(hql).list();
             t.commit();
@@ -37,12 +34,12 @@ public class Clientedaoimp implements Clientedao {
     }
 
     @Override
-    public void newCliente(Cliente cliente) {
-        Session session = null;
+    public void newVendedor(Vendedor vendedor) {
+       Session session = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            session.save(cliente);
+            session.save(vendedor);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -55,32 +52,33 @@ public class Clientedaoimp implements Clientedao {
     }
 
     @Override
-    public void updateCliente(Cliente cliente) {
-        Session session = null;
-
-       try {
+    public void updateVendedor(Vendedor vendedor) {
+         Session session = null;
+        try {
         session = HibernateUtil.getSessionFactory().openSession();
         session.beginTransaction();
 
-        // Cargar la entidad Cliente antes de actualizar
-        Cliente clienteExistente = (Cliente) session.get(Cliente.class, cliente.getCodcliente());
+        // Cargar la entidad Vendedor antes de actualizar
+        Vendedor vendedorExistente = (Vendedor) session.get(Vendedor.class, vendedor.getCodvendedor());
 
-        if (clienteExistente != null) {
-            // Actualizar los campos necesarios del cliente existente
-            clienteExistente.setNombres(cliente.getNombres());
-            clienteExistente.setApellidos(cliente.getApellidos());
-            clienteExistente.setCelular(cliente.getCelular());
-            clienteExistente.setDirrecion(cliente.getDirrecion());
+        if (vendedorExistente != null) {
+            // Actualizar los campos necesarios del vendedor existente
+            
+            vendedorExistente.setNombres(vendedor.getNombres());
+            vendedorExistente.setApellidos(vendedor.getApellidos());
+            vendedorExistente.setDui(vendedor.getDui());
+            vendedorExistente.setCelular(vendedor.getCelular());
+            vendedorExistente.setDireccion(vendedor.getDireccion());
             // Actualiza otros campos según sea necesario
 
-            session.merge(clienteExistente);
+            session.merge(vendedorExistente);
             session.getTransaction().commit();
         } else {
-            System.out.println("Cliente no encontrado para actualizar.");
+            System.out.println("Vendedor no encontrado para actualizar.");
             // Manejo de error o mensaje adecuado
         }
     } catch (Exception e) {
-        System.out.println("Error al actualizar cliente: " + e.getMessage());
+        System.out.println("Error al actualizar vendedor: " + e.getMessage());
         if (session != null && session.getTransaction().isActive()) {
             session.getTransaction().rollback();
         }
@@ -92,18 +90,17 @@ public class Clientedaoimp implements Clientedao {
     }
 
     @Override
-    // forma correcta de implementar el metodo deletecliente
-    public void deleteCliente(Cliente cliente) {
-        Session session = null;
-        try {
+    public void deleteVendedor(Vendedor vendedor) {
+          Session session = null;
+       try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
 
             // Cargar la entidad Cliente antes de eliminar
-            cliente = (Cliente) session.get(Cliente.class, cliente.getCodcliente());
+            vendedor = (Vendedor) session.get(Vendedor.class, vendedor.getCodvendedor());
 
-            if (cliente != null) {
-                session.delete(cliente);
+            if (vendedor != null) {
+                session.delete(vendedor);
                 session.getTransaction().commit();
             } else {
                 System.out.println("Cliente no encontrado para eliminar.");
@@ -120,5 +117,5 @@ public class Clientedaoimp implements Clientedao {
             }
         }
     }
-
+    
 }
