@@ -6,7 +6,7 @@
     <class name="sys.model.Producto" table="PRODUCTO" schema="dbo" catalog="FACTURACION" optimistic-lock="version">
         <id name="codproducto" type="int">
             <column name="CODPRODUCTO" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="nombreproducto" type="string">
             <column name="NOMBREPRODUCTO" length="75" not-null="true" />
