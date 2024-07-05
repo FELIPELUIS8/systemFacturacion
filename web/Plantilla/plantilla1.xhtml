@@ -13,46 +13,50 @@
     </h:head>
 
     <h:body>
+        <div id="divGeneral">
+            <div id="top">
+                <ui:insert name="top"></ui:insert>
+                <h1>SISTEMA DE FACTURACION</h1>
+                <div id="menuPrincipal">
+                    <h:form>
+                        <p:menubar>
+                            <p:submenu label="Inicio" icon="pi pi-fw pi-file">
+                                <p:menuitem value="Pagina Inicio" icon="pi pi-fw pi-bookmark"/>
+                                <p:separator/>
+                                <p:menuitem value="Salir" icon="pi pi-fw pi-video"/>
+                            </p:submenu>     
 
-        <div id="top">
-            <ui:insert name="top"></ui:insert>
-            <div class="card">
-    <h:form>
-        <p:menubar>
-            <p:submenu label="Inicio" icon="pi pi-fw pi-file">
-                    <p:menuitem value="Pagina Inicio" icon="pi pi-fw pi-bookmark"/>
-                     <p:separator/>
-                    <p:menuitem value="Salir" icon="pi pi-fw pi-video"/>
-                </p:submenu>     
+                            <p:submenu label="Cliente"  icon="pi pi-fw pi-pencil">
+                                <p:menuitem value="Ver y Editar" outcome="/Views/Cliente/cliente" icon="pi pi-fw pi-align-left"/>
+                            </p:submenu>
 
-            <p:submenu label="Cliente"  icon="pi pi-fw pi-pencil">
-                <p:menuitem value="Ver y Editar" outcome="/Views/Cliente/cliente" icon="pi pi-fw pi-align-left"/>
-            </p:submenu>
-            
-            <p:submenu label="Vendedor" icon="pi pi-fw pi-pencil">
-                <p:menuitem value="Ver y Editar" outcome="/Views/Vendedor/Vendedor" icon="pi pi-fw pi-align-left"/>
-            </p:submenu>
-            
-             <p:submenu label="Producto" icon="pi pi-fw pi-pencil">
-                <p:menuitem value="Ver y Editar" outcome="/Views/Producto/Producto" icon="pi pi-fw pi-align-left"/>
-            </p:submenu>
-            
-          <p:submenu label="Venta" icon="pi pi-fw pi-pencil">
-              <p:menuitem value="Facturar" outcome="/Views/Venta/Venta" icon="pi pi-fw pi-align-left"/>
-            </p:submenu>
-            
-          
-        </p:menubar>
-    </h:form>
-</div>
-        </div>
+                            <p:submenu label="Vendedor" icon="pi pi-fw pi-pencil">
+                                <p:menuitem value="Ver y Editar" outcome="/Views/Vendedor/Vendedor" icon="pi pi-fw pi-align-left"/>
+                            </p:submenu>
 
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-        </div>
+                            <p:submenu label="Producto" icon="pi pi-fw pi-pencil">
+                                <p:menuitem value="Ver y Editar" outcome="/Views/Producto/Producto" icon="pi pi-fw pi-align-left"/>
+                            </p:submenu>
 
-        <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
+                            <p:submenu label="Venta" icon="pi pi-fw pi-pencil">
+                                <p:menuitem value="Facturar" outcome="/Views/Venta/Venta" icon="pi pi-fw pi-align-left"/>
+                            </p:submenu>
+
+
+                        </p:menubar>
+                    </h:form>
+                </div>
+            </div>
+
+
+            <div id="content" class="center_content">
+                <ui:insert name="content">Content</ui:insert>
+            </div>
+
+            <div id="bottom">
+                <ui:insert name="bottom">@ 2024 Cantero Correa</ui:insert>
+            </div>
+
         </div>
 
     </h:body>

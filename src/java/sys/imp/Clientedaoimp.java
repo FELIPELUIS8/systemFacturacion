@@ -6,8 +6,6 @@
 package sys.imp;
 
 import java.util.List;
-
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -58,37 +56,39 @@ public class Clientedaoimp implements Clientedao {
     public void updateCliente(Cliente cliente) {
         Session session = null;
 
-       try {
-        session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            session.beginTransaction();
 
-        // Cargar la entidad Cliente antes de actualizar
-        Cliente clienteExistente = (Cliente) session.get(Cliente.class, cliente.getCodcliente());
+            // Cargar la entidad Cliente antes de actualizar
+            Cliente clienteExistente = (Cliente) session.get(Cliente.class, cliente.getCodcliente());
 
-        if (clienteExistente != null) {
-            // Actualizar los campos necesarios del cliente existente
-            clienteExistente.setNombres(cliente.getNombres());
-            clienteExistente.setApellidos(cliente.getApellidos());
-            clienteExistente.setCelular(cliente.getCelular());
-            clienteExistente.setDirrecion(cliente.getDirrecion());
-            // Actualiza otros campos según sea necesario
+            if (clienteExistente != null) {
+                // Actualizar los campos necesarios del cliente existente
+                clienteExistente.setNombres(cliente.getNombres());
+                clienteExistente.setApellidos(cliente.getApellidos());
+                clienteExistente.setCelular(cliente.getCelular());
+                clienteExistente.setDirrecion(cliente.getDirrecion());
+                clienteExistente.setIdentificacion(cliente.getIdentificacion());
+                clienteExistente.setEmail(cliente.getEmail());
+                // Actualiza otros campos según sea necesario
 
-            session.merge(clienteExistente);
-            session.getTransaction().commit();
-        } else {
-            System.out.println("Cliente no encontrado para actualizar.");
-            // Manejo de error o mensaje adecuado
+                session.merge(clienteExistente);
+                session.getTransaction().commit();
+            } else {
+                System.out.println("Cliente no encontrado para actualizar.");
+                // Manejo de error o mensaje adecuado
+            }
+        } catch (Exception e) {
+            System.out.println("Error al actualizar cliente: " + e.getMessage());
+            if (session != null && session.getTransaction().isActive()) {
+                session.getTransaction().rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
-    } catch (Exception e) {
-        System.out.println("Error al actualizar cliente: " + e.getMessage());
-        if (session != null && session.getTransaction().isActive()) {
-            session.getTransaction().rollback();
-        }
-    } finally {
-        if (session != null) {
-            session.close();
-        }
-    }
     }
 
     @Override
@@ -121,4 +121,16 @@ public class Clientedaoimp implements Clientedao {
         }
     }
 
+    @Override
+    public Cliente ObtenerClientesPorCodigo(Session session, Integer codCliente) throws Exception {
+        String hql = "FROM Cliente WHERE codcliente = :codCliente";
+    try {
+        Query query = session.createQuery(hql);
+        query.setParameter("codCliente", codCliente);
+        return (Cliente) query.uniqueResult();
+    } catch (Exception e) {
+        System.out.println("Error al ejecutar la consulta: " + e.getMessage());
+        throw e; // O manejar de otra forma según el contexto de tu aplicación
+    }
+    }
 }

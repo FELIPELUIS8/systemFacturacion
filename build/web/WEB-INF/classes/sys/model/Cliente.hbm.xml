@@ -20,6 +20,14 @@
         <property name="dirrecion" type="string">
             <column name="DIRRECION" length="150" not-null="true" />
         </property>
+        <property name="identificacion" type="string">
+            <column name="IDENTIFICACION" length="11" not-null="false" />
+        </property>
+        
+        <property name="email" type="string">
+            <column name="EMAIL" length="80" not-null="false" />
+        </property>
+        
         <set name="facturas" table="FACTURA" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="CODCLIENTE" not-null="true" />

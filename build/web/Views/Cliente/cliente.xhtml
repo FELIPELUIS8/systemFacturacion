@@ -11,7 +11,7 @@
         <ui:composition template="./../../Plantilla/plantilla1.xhtml">
 
             <ui:define name="content">
-                <h1>Datos del cliente</h1>
+                <h2>Datos del cliente</h2>
                 <h:form id="formPrincipal">
                     <p:commandButton value="Nuevo Cliente" actionListener="#{clienteBean.prepararNuevoCliente()}"
                                      oncomplete="PF('dialogNuevoCliente').show();"
@@ -26,9 +26,14 @@
                         <p:column headerText="Codigo">
                             <h:outputText value="#{ct.codcliente}"/> 
                         </p:column>                                 
-                        <p:column headerText="Nombre del cliente">
+                        <p:column headerText="Nombres y Apellidos">
                             <h:outputText value="#{ct.nombres} #{ct.apellidos}"/> 
                         </p:column>
+
+                        <p:column headerText="Identificacion">
+                            <h:outputText value="#{ct.identificacion}"/> 
+                        </p:column>
+
 
                         <p:column headerText="Celular">
                             <h:outputText value="#{ct.celular}"/> 
@@ -36,6 +41,11 @@
 
                         <p:column headerText="Direccion">
                             <h:outputText value="#{ct.dirrecion}"/> 
+                        </p:column>
+
+
+                        <p:column headerText="Email">
+                            <h:outputText value="#{ct.email}"/> 
                         </p:column>
 
                         <p:column headerText="Modificar">
@@ -68,12 +78,18 @@
 
                             <p:outputLabel value="Apellidos"/>
                             <p:inputText value="#{clienteBean.cliente.apellidos}"/>
-
+                            
+                            <p:outputLabel value="Identificacion"/>
+                            <p:inputText value="#{clienteBean.cliente.identificacion}"/>
+                            
                             <p:outputLabel value="Celular"/>
                             <p:inputText value="#{clienteBean.cliente.celular}"/>
 
                             <p:outputLabel value="Direccion"/>
                             <p:inputText value="#{clienteBean.cliente.dirrecion}"/>
+
+                            <p:outputLabel value="Email"/>
+                            <p:inputText value="#{clienteBean.cliente.email}"/>
 
                         </p:panelGrid>
                         <p:commandButton value="Guardar" actionListener="#{clienteBean.nuevoCliente()}"
@@ -96,11 +112,17 @@
                             <p:outputLabel value="Apellidos"/>
                             <p:inputText value="#{clienteBean.cliente.apellidos}"/>
 
+                            <p:outputLabel value="Identificacion"/>
+                            <p:inputText value="#{clienteBean.cliente.identificacion}"/>
+
                             <p:outputLabel value="Celular"/>
                             <p:inputText value="#{clienteBean.cliente.celular}"/>
 
                             <p:outputLabel value="Direccion"/>
                             <p:inputText value="#{clienteBean.cliente.dirrecion}"/>
+
+                            <p:outputLabel value="Email"/>
+                            <p:inputText value="#{clienteBean.cliente.email}"/>
 
                         </p:panelGrid>
                         <p:commandButton value="Guardar" actionListener="#{clienteBean.modificarCliente()}"
