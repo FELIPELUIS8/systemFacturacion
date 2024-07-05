@@ -20,9 +20,12 @@
                             <p:layoutUnit id="datosCliente" position="center" style="padding: 5px; text-align: justify;
                                           font-size: 14px;" size="300">
                                 <h:panelGrid id="gridBuscarporCodigoCliente" columns="5">
-
                                     <p:outputLabel value="Codigo cliente:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:inputText size="12" style="margin-left: 5px"/>
+                                    <p:inputText value="#{facturaBean.codigoCliente}" size="12" style="margin-left: 5px">
+                                        <p:ajax event="keyup" listener="#{facturaBean.agregarDatosCliente2()}"
+                                            update=":formFactura:gridDatosCliente"/>
+                                    </p:inputText>
+                                    
                                     <p:commandButton  value="" oncomplete="PF('dialogClientes').show()" icon="ui-icon-search" title="Buscar" style="width: 70px; height: 30px; background-size: cover;font-size: 50px; margin: 5px "/>
                                     <p:outputLabel value="Fecha:" style="font-weight: bold;font-size: 16px"/>
                                     <p:outputLabel value="Fecha" style="font-weight: bold;font-size: 16px"/>
@@ -30,7 +33,6 @@
                                 </h:panelGrid>
 
                                 <h:panelGrid id="gridBuscarporNombreCliente" columns="2">
-
 
                                     <p:outputLabel value="Nombre cliente:" style="font-weight: bold;font-size: 16px"/>
                                     <p:inputText size="12" style="margin-left: 1px;"/>

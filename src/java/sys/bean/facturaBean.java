@@ -29,7 +29,7 @@ public class facturaBean implements Serializable {
     Session session = null;
     Transaction transation = null;
     private Cliente cliente;
-    private String codigoCliente;
+    private Integer codigoCliente;
 
     public facturaBean() {
     }
@@ -42,11 +42,11 @@ public class facturaBean implements Serializable {
         this.cliente = cliente;
     }
 
-    public String getCodigoCliente() {
+    public Integer getCodigoCliente() {
         return codigoCliente;
     }
 
-    public void setCodigoCliente(String codigoCliente) {
+    public void setCodigoCliente(Integer codigoCliente) {
         this.codigoCliente = codigoCliente;
     }
 
@@ -80,22 +80,25 @@ public class facturaBean implements Serializable {
     }
 
     //Metodo para mostrar los datos de los cliente buscado por codigo
-    public void agregarDatosCliente2(Integer codcliente) {
+    public void agregarDatosCliente2() {
         this.session = null;
         this.transation = null;
-
+        
         try {
+            if (this.codigoCliente==null) {
+                return;
+            }
             this.session = HibernateUtil.getSessionFactory().openSession();
             Clientedao cDao = new Clientedaoimp();
             this.transation = this.session.beginTransaction();
             System.out.println("Transacción Hibernate iniciada.");
             //obtener los datos del cliente en la variable objeto cliente, segun el codigo del cliente.
-            this.cliente = cDao.ObtenerClientesPorCodigo(this.session, codcliente);
+            this.cliente = cDao.ObtenerClientesPorCodigo(this.session, this.codigoCliente);
             if (this.cliente != null) {
-                this.codigoCliente = "";
+                this.codigoCliente = null;
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del cliente agregado"));
             } else {
-                this.codigoCliente = "";
+                this.codigoCliente = null;
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Correcto", "Datos del cliente no encontrado"));
 
             }
