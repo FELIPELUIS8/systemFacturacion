@@ -4,9 +4,13 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/imp/Clientedaoimp.java</file>
-            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/model/Cliente.java</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/model/Producto.hbm.xml</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/dao/Productodao.java</file>
             <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/dao/Clientedao.java</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/model/Cliente.java</file>
             <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/bean/facturaBean.java</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/model/Producto.java</file>
+            <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/src/java/sys/imp/Productodaoimp.java</file>
             <file>file:/C:/Users/Luis%20Felipe%20Cantero/Documents/NetBeansProjects/systemFacturacion/web/Views/Venta/Venta.xhtml</file>
         </group>
     </open-files>

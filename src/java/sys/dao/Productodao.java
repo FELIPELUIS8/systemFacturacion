@@ -6,6 +6,7 @@
 package sys.dao;
 
 import java.util.List;
+import org.hibernate.Session;
 import sys.model.Producto;
 
 /**
@@ -17,4 +18,6 @@ public interface Productodao {
     public void newProducto(Producto producto);
     public void updateProducto(Producto producto);
     public void deleteProducto(Producto producto); 
+    public Producto ObtenerProductoPorCodigo(Session session, String codigobarra)throws Exception;
+    public Producto ObtenerProductoPorNombre(Session session, String nombreproducto)throws Exception;
 }

@@ -6,6 +6,7 @@
 package sys.imp;
 
 import java.util.List;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import sys.dao.Productodao;
@@ -113,6 +114,34 @@ public class Productodaoimp implements Productodao{
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public Producto ObtenerProductoPorCodigo(Session session, String codigobarra) throws Exception {
+        String hql = "FROM Producto WHERE codigobarra =:codigobarra";
+        try {
+            Query query = session.createQuery(hql);
+            query.setParameter("identificacion", codigobarra);
+            return (Producto) query.uniqueResult();
+            
+        } catch (Exception e) {
+            System.out.println("Error al ejecutar la consulta" + e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public Producto ObtenerProductoPorNombre(Session session, String nombreproducto) throws Exception {
+       String hql = "FROM Cliente WHERE nombreproducto =:nombreproducto";
+        try {
+            Query query = session.createQuery(hql);
+            query.setParameter("nombreproducto",nombreproducto );
+            return (Producto) query.uniqueResult();
+            
+        } catch (Exception e) {
+            System.out.println("Error al ejecutar la consulta" + e.getMessage());
+            throw e;
         }
     }
     

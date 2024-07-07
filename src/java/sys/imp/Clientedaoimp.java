@@ -133,4 +133,37 @@ public class Clientedaoimp implements Clientedao {
         throw e; // O manejar de otra forma según el contexto de tu aplicación
     }
     }
+
+    @Override
+    public Cliente ObtenerClientesPorNombre(Session session, String nombres) throws Exception {
+      String hql = "FROM Cliente WHERE nombres =:nombres";
+        try {
+            Query query = session.createQuery(hql);
+            query.setParameter("nombres", nombres);
+            return (Cliente) query.uniqueResult();
+            
+        } catch (Exception e) {
+            System.out.println("Error al ejecutar la consulta" + e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public Cliente ObtenerClientesPoridentificacion(Session session, String identificacion) throws Exception {
+        String hql = "FROM Cliente WHERE identificacion =:identificacion";
+        try {
+            Query query = session.createQuery(hql);
+            query.setParameter("identificacion", identificacion);
+            return (Cliente) query.uniqueResult();
+            
+        } catch (Exception e) {
+            System.out.println("Error al ejecutar la consulta" + e.getMessage());
+            throw e;
+        }
+    }
+    
+    
+    
+    
+    
 }
