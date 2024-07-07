@@ -122,7 +122,7 @@ public class Productodaoimp implements Productodao{
         String hql = "FROM Producto WHERE codigobarra =:codigobarra";
         try {
             Query query = session.createQuery(hql);
-            query.setParameter("identificacion", codigobarra);
+            query.setParameter("codigobarra", codigobarra);
             return (Producto) query.uniqueResult();
             
         } catch (Exception e) {
@@ -131,12 +131,12 @@ public class Productodaoimp implements Productodao{
         }
     }
 
-    @Override
+  @Override
     public Producto ObtenerProductoPorNombre(Session session, String nombreproducto) throws Exception {
-       String hql = "FROM Cliente WHERE nombreproducto =:nombreproducto";
+         String hql = "FROM Producto WHERE nombreproducto =:nombreproducto";
         try {
             Query query = session.createQuery(hql);
-            query.setParameter("nombreproducto",nombreproducto );
+            query.setParameter("nombreproducto", nombreproducto);
             return (Producto) query.uniqueResult();
             
         } catch (Exception e) {
@@ -144,5 +144,8 @@ public class Productodaoimp implements Productodao{
             throw e;
         }
     }
+
+  
+
     
 }

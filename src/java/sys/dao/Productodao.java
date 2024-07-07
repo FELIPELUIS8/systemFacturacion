@@ -20,4 +20,5 @@ public interface Productodao {
     public void deleteProducto(Producto producto); 
     public Producto ObtenerProductoPorCodigo(Session session, String codigobarra)throws Exception;
     public Producto ObtenerProductoPorNombre(Session session, String nombreproducto)throws Exception;
+    
 }

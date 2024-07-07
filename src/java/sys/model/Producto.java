@@ -20,12 +20,16 @@ public class Producto  implements java.io.Serializable {
      @Id
      @GeneratedValue (strategy = GenerationType.IDENTITY)
      @Column (name = "CODPRODUCTO")
-     
      private int codproducto;
+     @Column (name = "NOMBREPRODUCTO")
      private String nombreproducto;
+     @Column (name = "PRECIOVENTA")
      private BigDecimal precioventa;
+     @Column (name = "STOCKMINIMO")
      private int stockminimo;
+     @Column (name = "STOCKACTUAL")
      private int stockactual;
+     @Column (name = "CODIGOBARRA")
      private String codigobarra;
      private Set<Detallefactura> detallefacturas = new HashSet<Detallefactura>(0);
 

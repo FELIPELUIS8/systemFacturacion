@@ -89,42 +89,45 @@
                         <p:separator/>
                         <h:panelGrid columns="3">
                             <p:outputLabel value="Codigo barra:" style=" margin: 6px; font-weight: bold;font-size: 16px; "/>
-                            <p:inputText value="#{facturaBean.nombreproducto}" size="12" style="margin-left: 10px">
-                                 <p:ajax event="keyup" listener="#{facturaBean.agregarDatosProducto()}"
-                                        update=":formFactura:tablaProductosFactura"/>
+                            <p:inputText id="txtBuscarCodigoBarra" value="#{facturaBean.codigobarra}" size="12" style="margin-left: 10px">
+                                <p:ajax event="keyup" listener="#{facturaBean.agregarDatosProducto1()}"
+                                        update=":formFactura:tablaProductosFactura: formFactura:txtBuscarCodigoBarra"/>
                             </p:inputText>
+
                             <p:commandButton value="" icon="ui-icon-search" title="Buscar" oncomplete="PF('dialogProductos').show()" style="width: 70px; height: 30px; background-size: cover; font-size: 50px; margin: 5px"
                                              update=":formFactura:digProductos"/>
                         </h:panelGrid>
 
                         <h:panelGrid columns="2">
                             <p:outputLabel value="Nombre prod :" style="font-weight: bold;font-size: 16px;margin:6px"/>
-                            <p:inputText value="#{facturaBean.nombreproducto}" size="12" style="margin: 3px">
+                            <p:inputText id="txtBuscarPorNombre"  value="#{facturaBean.nombreproducto}" size="12" style="margin: 3px">
                                 <p:ajax event="keyup" listener="#{facturaBean.agregarDatosProducto2()}"
-                                        update=":formFactura:tablaProductosFactura"/>
+                                        update="formFactura:tablaProductosFactura: formFactura:txtBuscarPorNombre"/>
                             </p:inputText>
+
 
                         </h:panelGrid>
                         <p:separator/>
-                        <p:dataTable id="tablaProductosFactura">
+                        <p:dataTable id="tablaProductosFactura" var="item" value="#{facturaBean.listaDetalleFactura}">
+
                             <p:column headerText="Codigo Barra">
-                                <h:outputLabel value="#{facturaBean.producto.codigobarra}"/>
+                                <h:outputText value="#{item.codbarra}"/>
                             </p:column>
 
                             <p:column headerText="Producto">
-
+                                <h:outputText value="#{item.nombreproducto}"/>
                             </p:column>
 
                             <p:column headerText="Cantidad">
-
+                                <h:outputText value="#{item.cantidad}"/>
                             </p:column>
 
                             <p:column headerText="Precio venta">
-
+                                <h:outputText value="#{item.precioventa}"/>
                             </p:column>
 
                             <p:column headerText="Total">
-
+                                <h:outputText value="#{item.total}"/>
                             </p:column>
                         </p:dataTable>
 
@@ -169,7 +172,7 @@
                                 <h:outputText value="#{ct.email}"/> 
                             </p:column>
 
-                            <p:column headerText="Modificar">
+                            <p:column headerText="">
                                 <p:commandButton value="Seleccionar" actionListener="#{facturaBean.agregarDatosCliente(ct.codcliente)}"
                                                  oncomplete="PF('dialogClientes').hide();"
                                                  update=":formFactura:gridDatosCliente"> 
@@ -180,8 +183,8 @@
                         <p:commandButton value="" icon="ui-icon-close" title="Cerrar" oncomplete="PF('dialogClientes').hide();" 
                                          style="width: 70px; height: 40px; background-size: cover;font-size: 50px"/>
                     </p:dialog>
-                    
-                        <!--Dialog para mostrar todos los productos del sistema-->
+
+                    <!--Dialog para mostrar todos los productos del sistema-->
                     <p:dialog id="digProductos" widgetVar="dialogProductos" modal="true" resizable="false"
                               showEffect="explode" hideEffect="explode">
 
@@ -212,19 +215,20 @@
                                 <h:outputText value="#{pro.codigobarra}"/> 
                             </p:column>
 
-                            <p:column headerText="Modificar">
-                                <p:commandButton value="Seleccionar" 
+                            <p:column headerText="">
+                                <p:commandButton value="Seleccionar" actionListener="#{facturaBean.agregarDatosProducto(pro.codigobarra)}"
                                                  oncomplete="PF('dialogProductos').hide();"
                                                  update=":formFactura:tablaProductosFactura"> 
                                 </p:commandButton>
                             </p:column>
+                            
 
                         </p:dataTable>
                         <p:commandButton value="" icon="ui-icon-close" title="Cerrar" oncomplete="PF('dialogProductos').hide();" 
                                          style="width: 70px; height: 40px; background-size: cover;font-size: 50px"/>
                     </p:dialog>
-                    
-                    
+
+
                 </h:form>
 
             </ui:define>
