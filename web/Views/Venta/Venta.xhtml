@@ -123,18 +123,19 @@
                             </p:column>
 
                             <p:column headerText="Precio venta">
-                                <h:outputText value="#{item.precioventa}"/>
+                               $ <h:outputText value="#{item.precioventa}"/>
                             </p:column>
 
                             <p:column headerText="Total">
-                                <h:outputText value="#{item.total}"/>
+                               $ <h:outputText value="#{item.total}"/>
                             </p:column>
                         </p:dataTable>
-
-                        <p:outputLabel value="TOTAL VENTA"/>
-                        $ <p:outputLabel value="Total a vender"/>  
                         <p:separator/>
-
+                        <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 24px; margin: 0 auto">
+                            TOTAL VENTA $
+                            <p:outputLabel value="#{facturaBean.factura.totalventa}"/>
+                        </h:panelGrid>
+                        <p:separator/>
                         <p:commandButton  value="" icon="ui-icon-disk" title="Registrar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px; "/>
                         <p:commandButton  value="" icon="ui-icon-print" title="Imprimir" style="width: 70px; height: 40px; background-size: cover;font-size: 50px "/>
                         <p:commandButton  value="" icon="ui-icon-close" title="Cancelar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px" />
@@ -198,7 +199,7 @@
                             </p:column>
 
                             <p:column headerText="PrecioVenta">
-                                <h:outputText value="#{pro.precioventa}"/> 
+                              $  <h:outputText value="#{pro.precioventa}"/> 
                             </p:column>
 
 
@@ -216,9 +217,9 @@
                             </p:column>
 
                             <p:column headerText="">
-                                <p:commandButton value="Seleccionar" actionListener="#{facturaBean.agregarDatosProducto(pro.codigobarra)}"
-                                                 oncomplete="PF('dialogProductos').hide();"
-                                                 update=":formFactura:tablaProductosFactura"> 
+                                <p:commandButton value="Seleccionar" actionListener="#{facturaBean.pedirCantidadProducto(pro.codigobarra)}"
+                                                 oncomplete="PF('dialogCantidadProducto').show();"
+                                                 update=":formFactura:digCantidadProducto"> 
                                 </p:commandButton>
                             </p:column>
                             
@@ -228,6 +229,15 @@
                                          style="width: 70px; height: 40px; background-size: cover;font-size: 50px"/>
                     </p:dialog>
 
+                     <!--Dialog para pedir la cantidad del producto-->
+                     <p:dialog id="digCantidadProducto" widgetVar="dialogCantidadProducto" header="Cantidad" modal="true">
+                         Cantidad de  producto a vender:
+                         <p:inputText id="txtCantidadProducto" value="#{facturaBean.cantidadProducto}"/>
+                         <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProducto()}"
+                                          update=":formFactura:tablaProductosFactura :formFactura:digCantidadProducto :formFactura:gridTotalFactura"
+                                          oncomplete="PF('dialogCantidadProducto').hide(); PF('dialogProductos').hide();"/>
+                                          
+                     </p:dialog>
 
                 </h:form>
 

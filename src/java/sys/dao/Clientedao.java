@@ -23,4 +23,5 @@ public interface Clientedao {
     public Cliente ObtenerClientesPorCodigo(Session session ,Integer codCliente)throws Exception;
     public Cliente ObtenerClientesPorNombre(Session session ,String nombres)throws Exception;
     public Cliente ObtenerClientesPoridentificacion(Session session ,String nombres)throws Exception;
+    
 }

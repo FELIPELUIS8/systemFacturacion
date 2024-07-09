@@ -22,6 +22,7 @@ import sys.imp.Clientedaoimp;
 import sys.imp.Productodaoimp;
 import sys.model.Cliente;
 import sys.model.Detallefactura;
+import sys.model.Factura;
 import sys.model.Producto;
 import sys.util.HibernateUtil;
 
@@ -44,9 +45,13 @@ public class facturaBean implements Serializable {
     private String codigobarra;
     private String nombreproducto;
     private List<Detallefactura> listaDetalleFactura;
+    private Integer cantidadProducto;
+    private String prodcutoSeleccionado;
+    private Factura factura;
 
     public facturaBean() {
         listaDetalleFactura = new ArrayList<>();
+        this.factura = new Factura();
     }
 
     public Cliente getCliente() {
@@ -111,6 +116,30 @@ public class facturaBean implements Serializable {
 
     public void setListaDetalleFactura(List<Detallefactura> listaDetalleFactura) {
         this.listaDetalleFactura = listaDetalleFactura;
+    }
+
+    public Integer getCantidadProducto() {
+        return cantidadProducto;
+    }
+
+    public void setCantidadProducto(Integer cantidadProducto) {
+        this.cantidadProducto = cantidadProducto;
+    }
+
+    public String getProdcutoSeleccionado() {
+        return prodcutoSeleccionado;
+    }
+
+    public void setProdcutoSeleccionado(String prodcutoSeleccionado) {
+        this.prodcutoSeleccionado = prodcutoSeleccionado;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
     }
 
     //Metodo para mostrar los datos de los clientes por medio del dialogClientes
@@ -262,8 +291,13 @@ public class facturaBean implements Serializable {
         }
     }
 
+    //Metodo para solicitar la cantidad de producto a vender
+    public void pedirCantidadProducto(String codBarra) {
+        this.prodcutoSeleccionado = codBarra;
+    }
+
     //Metodo para mostrar los datos de los productos buscado por medio del dialogProducto
-    public void agregarDatosProducto(String codigoBarra) {
+    public void agregarDatosProducto() {
         this.session = null;
         this.transation = null;
 
@@ -273,12 +307,19 @@ public class facturaBean implements Serializable {
             this.transation = this.session.beginTransaction();
             System.out.println("Transacción Hibernate iniciada.");
             //obtener los datos del producto en la variable objeto producto, segun el codigo de barra.
-            this.producto = proDao.ObtenerProductoPorCodigo(this.session, codigoBarra);
-            listaDetalleFactura.add(new Detallefactura(null, null, this.producto, this.producto.getCodigobarra(), this.producto.getNombreproducto(), 0, this.producto.getPrecioventa(), BigDecimal.ZERO));
+            this.producto = proDao.ObtenerProductoPorCodigo(this.session, prodcutoSeleccionado);
+            listaDetalleFactura.add(new Detallefactura(null, null, this.producto, this.producto.getCodigobarra(),
+                    this.producto.getNombreproducto(), this.cantidadProducto, this.producto.getPrecioventa(),
+                    BigDecimal.valueOf(this.cantidadProducto.floatValue() * this.producto.getPrecioventa().floatValue())));
             System.out.println("Producto obtenido: " + this.producto);
             this.transation.commit();
+
             System.out.println("Transacción Hibernate comprometida.");
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del cliente agregado"));
+            //Llamada al metodo calcular totalFacturaVenta.
+            this.totalFacturaVenta();
+            this.cantidadProducto = null;
         } catch (Exception e) {
             if (this.transation != null) {
                 System.out.println(e.getMessage());
@@ -332,6 +373,7 @@ public class facturaBean implements Serializable {
             }
         }
     }
+
     //Metodo para mostrar los datos del producto  buscado por codigo de barra
     public void agregarDatosProducto2() {
         this.session = null;
@@ -346,7 +388,7 @@ public class facturaBean implements Serializable {
             this.transation = this.session.beginTransaction();
             System.out.println("Transacción Hibernate iniciada.");
             //obtener los datos del Producto en la variable objeto producto, segun el nombre.
-            this.producto = proDao.ObtenerProductoPorNombre(session,nombreproducto);
+            this.producto = proDao.ObtenerProductoPorNombre(session, nombreproducto);
             if (this.producto != null) {
                 this.nombreproducto = null;
                 listaDetalleFactura.add(new Detallefactura(null, null, this.producto, this.producto.getCodigobarra(), this.producto.getNombreproducto(), 0, this.producto.getPrecioventa(), BigDecimal.ZERO));
@@ -372,4 +414,25 @@ public class facturaBean implements Serializable {
             }
         }
     }
+
+    //Metodo para calcular el total a vender
+    public void totalFacturaVenta() {
+        BigDecimal totalFacturaVenta = new BigDecimal("0");
+        try {
+            for (Detallefactura item : listaDetalleFactura) {
+                BigDecimal totalVentaPorProducto = item.getPrecioventa().multiply(new BigDecimal(item.getCantidad()));
+                item.setTotal(totalVentaPorProducto);
+                totalFacturaVenta = totalFacturaVenta.add(totalVentaPorProducto);
+            }
+            if (factura != null) {
+                this.factura.setTotalventa(totalFacturaVenta);
+            } else {
+                System.err.println("La factura es nula. No se puede establecer el total de la venta.");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
