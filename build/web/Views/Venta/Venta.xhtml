@@ -87,11 +87,11 @@
                             </p:layoutUnit>
                         </p:layout>
                         <p:separator/>
-                        <h:panelGrid columns="3">
+                        <h:panelGrid id="gridBuscarProducto" columns="3">
                             <p:outputLabel value="Codigo barra:" style=" margin: 6px; font-weight: bold;font-size: 16px; "/>
                             <p:inputText id="txtBuscarCodigoBarra" value="#{facturaBean.codigobarra}" size="12" style="margin-left: 10px">
-                                <p:ajax event="keyup" listener="#{facturaBean.agregarDatosProducto1()}"
-                                        update=":formFactura:tablaProductosFactura: formFactura:txtBuscarCodigoBarra"/>
+                                <p:ajax event="keyup" listener="#{facturaBean.mostrarCantidadProducto1()}"
+                                        update=":formFactura:gridBuscarProducto"/>
                             </p:inputText>
 
                             <p:commandButton value="" icon="ui-icon-search" title="Buscar" oncomplete="PF('dialogProductos').show()" style="width: 70px; height: 30px; background-size: cover; font-size: 50px; margin: 5px"
@@ -236,6 +236,16 @@
                          <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProducto()}"
                                           update=":formFactura:tablaProductosFactura :formFactura:digCantidadProducto :formFactura:gridTotalFactura"
                                           oncomplete="PF('dialogCantidadProducto').hide(); PF('dialogProductos').hide();"/>
+                                          
+                     </p:dialog>
+                     
+                           <!--Dialog para pedir la cantidad del producto por codigo de barra-->
+                     <p:dialog id="digCantidadProducto1" widgetVar="dialogCantidadProducto1" header="Cantidad" modal="true">
+                         Cantidad de  producto a vender:
+                         <p:inputText id="txtCantidadProducto1" value="#{facturaBean.cantidadProducto1}"/>
+                         <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProducto1()}"
+                                          update=":formFactura:tablaProductosFactura :formFactura:digCantidadProducto1 :formFactura:gridTotalFactura"
+                                          oncomplete="PF('dialogCantidadProducto1').hide();"/>
                                           
                      </p:dialog>
 

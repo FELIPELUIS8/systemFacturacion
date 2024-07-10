@@ -16,6 +16,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.primefaces.context.RequestContext;
 import sys.dao.Clientedao;
 import sys.dao.Productodao;
 import sys.imp.Clientedaoimp;
@@ -48,6 +49,7 @@ public class facturaBean implements Serializable {
     private Integer cantidadProducto;
     private String prodcutoSeleccionado;
     private Factura factura;
+    private Integer cantidadProducto1;
 
     public facturaBean() {
         listaDetalleFactura = new ArrayList<>();
@@ -140,6 +142,14 @@ public class facturaBean implements Serializable {
 
     public void setFactura(Factura factura) {
         this.factura = factura;
+    }
+
+    public Integer getCantidadProducto1() {
+        return cantidadProducto1;
+    }
+
+    public void setCantidadProducto1(Integer cantidadProducto1) {
+        this.cantidadProducto1 = cantidadProducto1;
     }
 
     //Metodo para mostrar los datos de los clientes por medio del dialogClientes
@@ -333,8 +343,8 @@ public class facturaBean implements Serializable {
         }
     }
 
-    //Metodo para mostrar los datos del producto  buscado por codigo de barra
-    public void agregarDatosProducto1() {
+    // metodo para mostrar el dialogCantidadProducto1
+    public void mostrarCantidadProducto1() {
         this.session = null;
         this.transation = null;
 
@@ -349,9 +359,9 @@ public class facturaBean implements Serializable {
             //obtener los datos del Producto en la variable objeto producto, segun el codigo de barra.
             this.producto = proDao.ObtenerProductoPorCodigo(this.session, this.codigobarra);
             if (this.producto != null) {
+                RequestContext context = RequestContext.getCurrentInstance();
+                context.execute("PF('dialogCantidadProducto1').show();");
                 this.codigobarra = null;
-                listaDetalleFactura.add(new Detallefactura(null, null, this.producto, this.producto.getCodigobarra(), this.producto.getNombreproducto(), 0, this.producto.getPrecioventa(), BigDecimal.ZERO));
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del producto agregado al detalle"));
             } else {
                 this.codigobarra = null;
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Correcto", "Datos del producto no encontrado"));
@@ -375,6 +385,20 @@ public class facturaBean implements Serializable {
     }
 
     //Metodo para mostrar los datos del producto  buscado por codigo de barra
+    public void agregarDatosProducto1() {
+
+        if (this.producto != null) {
+            listaDetalleFactura.add(new Detallefactura(null, null, this.producto, this.producto.getCodigobarra(),
+                    this.producto.getNombreproducto(), this.cantidadProducto1, this.producto.getPrecioventa(),
+                    BigDecimal.valueOf(this.cantidadProducto1.floatValue() * this.producto.getPrecioventa().floatValue())));
+            this.cantidadProducto1 = null;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Datos del producto agregado al detalle"));
+            //Llamar al metodo totalFacturaVenta;
+            this.totalFacturaVenta();
+        }
+    }
+
+    //Metodo para mostrar los datos del producto  buscado por nombre de producto
     public void agregarDatosProducto2() {
         this.session = null;
         this.transation = null;
