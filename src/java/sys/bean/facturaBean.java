@@ -25,6 +25,7 @@ import sys.model.Factura;
 import sys.model.Producto;
 import sys.util.HibernateUtil;
 import javax.faces.context.FacesContext;
+import org.primefaces.event.RowEditEvent;
 
 /**
  *
@@ -555,6 +556,42 @@ public class facturaBean implements Serializable {
             return false;
         }
         return true;
+    }
+
+    public void quitarProductoDetalleFactura(String codBarra, Integer filaSeleccionada) {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        try {
+            int i = 0;
+            for (Detallefactura item : this.listaDetalleFactura) {
+                if (item.getCodbarra().equals(codBarra) && filaSeleccionada.equals(i)) {
+                    this.listaDetalleFactura.remove(i);
+                    break;
+                }
+                i++;
+            }
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "información", "se retiro el producto de la factura"));
+            //invocamos el motodo totalfacturaventa, para actualizar el total a vender
+            this.totalFacturaVenta();
+        } catch (Exception e) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Error", e.getMessage()));
+
+        }
+    }
+
+    //metodo para editar la cantidad de producto en la tabla productoFactura
+    public void onRowEdit(RowEditEvent event) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "información", "Cantidad modificada"));
+        //se invoca el el metodo totalfacturaventa para actualizar el total a vender
+        this.totalFacturaVenta();
+
+    }
+
+    public void onRowCancel(RowEditEvent event) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "información", "No se realizo ningun cambio"));
+
     }
 
 }

@@ -30,7 +30,8 @@
                                                 update=":formFactura:gridDatosCliente"/>
                                     </p:inputText>
 
-                                    <p:commandButton  value="" oncomplete="PF('dialogClientes').show()" icon="ui-icon-search" title="Buscar" style="width: 70px; height: 30px; background-size: cover;font-size: 50px; margin: 5px "/>
+                                    <p:commandButton  value="" oncomplete="PF('dialogClientes').show()" icon="ui-icon-search" title="Buscar" 
+                                                      style="width: 70px; height: 30px; background-size: cover;font-size: 50px; margin: 5px "/>
                                     <p:outputLabel value="Fecha:" style="font-weight: bold;font-size: 16px"/>
                                     <p:outputLabel value="Fecha" style="font-weight: bold;font-size: 16px"/>
 
@@ -98,7 +99,8 @@
                                         update=":formFactura:gridBuscarProducto"/>
                             </p:inputText>
 
-                            <p:commandButton value="" icon="ui-icon-search" title="Buscar" oncomplete="PF('dialogProductos').show()" style="width: 70px; height: 30px; background-size: cover; font-size: 50px; margin: 5px"
+                            <p:commandButton value="" icon="ui-icon-search" title="Buscar" oncomplete="PF('dialogProductos').show()" 
+                                             style="width: 70px; height: 30px; background-size: cover; font-size: 50px; margin: 5px"
                                              update=":formFactura:digProductos"/>
                         </h:panelGrid>
 
@@ -112,7 +114,10 @@
 
                         </h:panelGrid>
                         <p:separator/>
-                        <p:dataTable id="tablaProductosFactura" var="item" value="#{facturaBean.listaDetalleFactura}">
+                        <p:dataTable id="tablaProductosFactura" var="item" value="#{facturaBean.listaDetalleFactura}" 
+                                     editable="true"  rowIndexVar="rowindex">
+                            <p:ajax event="rowEdit" listener="#{facturaBean.onRowEdit}" update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura"/>
+                            <p:ajax event="rowEditCancel" listener="#{facturaBean.onRowCancel}" update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura"/>
 
                             <p:column headerText="Codigo Barra">
                                 <h:outputText value="#{item.codbarra}"/>
@@ -123,7 +128,22 @@
                             </p:column>
 
                             <p:column headerText="Cantidad">
-                                <h:outputText value="#{item.cantidad}"/>
+                                <p:cellEditor>
+                                    <f:facet name="output">
+                                        <h:outputText value="#{item.cantidad}"/>
+                                    </f:facet>
+                                    <f:facet name="input">
+                                        <p:inputText value="#{item.cantidad}" label="Cantidad Producto"
+                                                     rendered="true" requiredMessage="Es necesaria una cantidad"
+                                                     converter="#{Integer}" converterMessage="Esta no es una cantidad correcta"
+                                                     validatorMessage="La cantidad debe ser mayor o igual a 1">
+                                            <f:validateLongRange minimum="1"/>
+                                        
+                                        </p:inputText>
+                                    </f:facet>
+
+
+                                </p:cellEditor>
                             </p:column>
 
                             <p:column headerText="Precio venta">
@@ -133,16 +153,32 @@
                             <p:column headerText="Total">
                                 $ <h:outputText value="#{item.total}"/>
                             </p:column>
+
+                            <p:column headerText="Editar">
+                                <p:rowEditor/>
+                            </p:column>
+
+                            <p:column headerText="Quitar">
+                                <p:commandLink value="X" actionListener="#{facturaBean.quitarProductoDetalleFactura(item.codbarra, rowindex)}"
+                                               title="Quitar producto" style="text-decoration: none; color: red"
+                                               update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura"
+                                               process="@this" 
+                                               oncomplete="PF('confirmationDialog').hide()">
+                                    <p:confirm header="Confirmar" message="¿Estás seguro de que deseas eliminar este producto?" icon="ui-icon-alert" />
+                                </p:commandLink>
+
+                            </p:column>
+
                         </p:dataTable>
                         <p:separator/>
-                        <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 24px; margin: 0 auto">
+                        <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 24px; margin: 0 auto; color: green">
                             TOTAL VENTA $
                             <p:outputLabel value="#{facturaBean.factura.totalventa}"/>
                         </h:panelGrid>
                         <p:separator/>
                         <p:commandButton  value="" icon="ui-icon-disk" title="Registrar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px; "/>
                         <p:commandButton  value="" icon="ui-icon-print" title="Imprimir" style="width: 70px; height: 40px; background-size: cover;font-size: 50px "/>
-                        <p:commandButton  value="" icon="ui-icon-close" title="Cancelar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px" />
+                        <p:commandButton  value="" icon="ui-icon-close" title="Cancelar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px;" />
 
                     </p:panel>
 
@@ -262,6 +298,12 @@
                                          oncomplete="PF('dialogCantidadProducto2').hide();"/>
 
                     </p:dialog>
+
+                    <!-- Dialogo de confirmación para quitar un producto de la factura -->
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="confirmationDialog">
+                        <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
 
                 </h:form>
 
