@@ -13,7 +13,7 @@
             <ui:define name="content">
                 <h2>Datos del cliente</h2>
                 <h:form id="formPrincipal">
-                    <p:commandButton value="Nuevo Cliente" actionListener="#{clienteBean.prepararNuevoCliente()}"
+                    <p:commandButton value="Nuevo Cliente" style="width: 150px; height: 50px" actionListener="#{clienteBean.prepararNuevoCliente()}"
                                      oncomplete="PF('dialogNuevoCliente').show();"
                                      update=":formNuevoCliente"/>
 

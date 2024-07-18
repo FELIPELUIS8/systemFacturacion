@@ -8,6 +8,7 @@ package sys.bean;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -26,6 +27,11 @@ import sys.model.Producto;
 import sys.util.HibernateUtil;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.RowEditEvent;
+import sys.dao.detalleFacturaDao;
+import sys.dao.facturaDao;
+import sys.imp.detalleFacturaDaoimp;
+import sys.imp.facturaDaoimp;
+import sys.model.Vendedor;
 
 /**
  *
@@ -51,10 +57,16 @@ public class facturaBean implements Serializable {
     private Factura factura;
     private String cantidadProducto1;
     private String cantidadProducto2;
+    private Long numeroFactura;
+    private BigDecimal totalVentaFactura;
+    private Vendedor vendedor;
 
     public facturaBean() {
-        listaDetalleFactura = new ArrayList<>();
+        this.listaDetalleFactura = new ArrayList<>();
         this.factura = new Factura();
+        this.vendedor = new Vendedor();
+        this.cliente = new Cliente();
+
     }
 
     public Cliente getCliente() {
@@ -159,6 +171,30 @@ public class facturaBean implements Serializable {
 
     public void setCantidadProducto2(String cantidadProducto2) {
         this.cantidadProducto2 = cantidadProducto2;
+    }
+
+    public Long getNumeroFactura() {
+        return numeroFactura;
+    }
+
+    public void setNumeroFactura(Long numeroFactura) {
+        this.numeroFactura = numeroFactura;
+    }
+
+    public BigDecimal getTotalVentaFactura() {
+        return totalVentaFactura;
+    }
+
+    public void setTotalVentaFactura(BigDecimal totalVentaFactura) {
+        this.totalVentaFactura = totalVentaFactura;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
     }
 
     //Metodo para mostrar los datos de los clientes por medio del dialogClientes
@@ -490,15 +526,15 @@ public class facturaBean implements Serializable {
 
     //Metodo para calcular el total a vender
     public void totalFacturaVenta() {
-        BigDecimal totalFacturaVenta = new BigDecimal("0");
+        this.totalVentaFactura = new BigDecimal("0");
         try {
             for (Detallefactura item : listaDetalleFactura) {
                 BigDecimal totalVentaPorProducto = item.getPrecioventa().multiply(new BigDecimal(item.getCantidad()));
                 item.setTotal(totalVentaPorProducto);
-                totalFacturaVenta = totalFacturaVenta.add(totalVentaPorProducto);
+                totalVentaFactura = totalVentaFactura.add(totalVentaPorProducto);
             }
             if (factura != null) {
-                this.factura.setTotalventa(totalFacturaVenta);
+                this.factura.setTotalventa(totalVentaFactura);
             } else {
                 System.err.println("La factura es nula. No se puede establecer el total de la venta.");
             }
@@ -592,6 +628,102 @@ public class facturaBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "información", "No se realizo ningun cambio"));
 
+    }
+
+    //Metodo para generar el numero de la factura
+    public void numeracionFactura() {
+        this.session = null;
+        this.transation = null;
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            this.transation = this.session.beginTransaction();
+            facturaDao fDao = new facturaDaoimp();
+            //verificar si hay resistros en  la tabl factura de la BD.
+            this.numeroFactura = fDao.obtenerTotalRegistrosEnFactura(this.session);
+            if (this.numeroFactura <= 0 || this.numeroFactura == null) {
+                this.numeroFactura = Long.valueOf("1");
+            } else {
+                //recuperamos el ultimo registro que exista en la tabla factura de la BD.
+                this.factura = fDao.obtenerUltimoRegistro(this.session);
+                this.numeroFactura = Long.valueOf(this.factura.getNumerofactura()) + 1;
+                //Limpiamos la variable totalVentaFactura.
+                this.totalVentaFactura = new BigDecimal("0");
+            }
+            this.transation.commit();
+        } catch (Exception e) {
+            if (this.transation != null) {
+                this.transation.rollback();
+            }
+            System.out.println(e.getMessage());
+        } finally {
+            if (this.session != null) {
+                this.session.close();
+            }
+        }
+    }
+
+    public void limpiarFactura() {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        this.cliente = new Cliente();
+        this.factura = new Factura();
+        this.listaDetalleFactura = new ArrayList<>();
+        this.numeroFactura = null;
+        this.totalVentaFactura = null;
+        context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Limpiar factura", "Factura limpiada"));
+    }
+
+    //metodo para guardar venta
+    public void guardarVenta() {
+        FacesContext context = FacesContext.getCurrentInstance();
+
+        this.session = null;
+        this.transation = null;
+        this.vendedor.setCodvendedor(1);
+        try {
+            this.session = HibernateUtil.getSessionFactory().openSession();
+            Productodao pDao = new Productodaoimp();
+            facturaDao fDao = new facturaDaoimp();
+            detalleFacturaDao dFDao = new detalleFacturaDaoimp();
+
+            this.transation = this.session.beginTransaction();
+            
+            // Establecer la fecha de registro a la fecha y hora actual
+        this.factura.setFecharegistro(new Date());
+        
+            //datos para guardar en la tabla factura de la BD.
+            this.factura.setNumerofactura(this.numeroFactura.toString());
+            this.factura.setCliente(this.cliente);
+            this.factura.setVendedor(this.vendedor);
+
+            //Hacemos el insert en la tabla factura de la BD.
+            fDao.guardarVentaFactura(this.session, this.factura);
+
+            //recuperar el ultimo registro de la tabla factura.
+            this.factura = fDao.obtenerUltimoRegistro(this.session);
+
+            //recorremos el arrayList para guardar cada registro en la BD.
+            for (Detallefactura item : listaDetalleFactura) {
+                this.producto = pDao.ObtenerProductoPorCodigo(this.session, item.getCodbarra());
+                item.setFactura(this.factura);
+                item.setProducto(this.producto);
+
+                //hacemos el insert en la tabla detalle factura de la base de datos.
+                dFDao.guardarVentaDetalleFactura(this.session, item);
+            }
+            this.transation.commit();
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Venta registrada exitosa"));
+            this.limpiarFactura();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            if (this.transation != null) {
+                this.transation.rollback();
+            }
+        } finally {
+            if (this.session != null) {
+                this.session.close();
+            }
+        }
     }
 
 }

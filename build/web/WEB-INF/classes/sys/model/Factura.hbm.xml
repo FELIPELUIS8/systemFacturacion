@@ -6,7 +6,7 @@
     <class name="sys.model.Factura" table="FACTURA" schema="dbo" catalog="FACTURACION" optimistic-lock="version">
         <id name="codfactura" type="int">
             <column name="CODFACTURA" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="cliente" class="sys.model.Cliente" fetch="select">
             <column name="CODCLIENTE" not-null="true" />

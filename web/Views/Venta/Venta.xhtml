@@ -14,6 +14,15 @@
 
             <ui:define name="content">
                 <h2>REALIZAR VENTA</h2>
+                
+                <h:form>
+                    <h:panelGrid width="1009px" style="margin: 0 auto; background-color: lightgrey" >
+                        <p:commandButton value="Nueva venta" actionListener="#{facturaBean.numeracionFactura()}"
+                                         style="width: 150px; height: 60px"
+                                         update=":formFactura"/> 
+                    </h:panelGrid>
+                </h:form>
+                
                 <h:form id="formFactura">
                     <!--situa los mensajes de errores en la parte superior derecha y actualiza los messege de Facemessege -->
                     <p:growl id="growl" showDetail="true" sticky="false" life="5000" autoUpdate="true" />
@@ -85,7 +94,7 @@
                                           font-size: 14px;" size="300">
                                 <h:panelGrid columns="1" style="font-size: 24px; font-weight: bold; margin-top: 30px; margin: 0 auto">
                                     FACTURA
-                                    <p:outputLabel value="000001"/>
+                                    <p:outputLabel value="#{facturaBean.numeroFactura}"/>
                                 </h:panelGrid>
 
 
@@ -173,12 +182,17 @@
                         <p:separator/>
                         <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 24px; margin: 0 auto; color: green">
                             TOTAL VENTA $
-                            <p:outputLabel value="#{facturaBean.factura.totalventa}"/>
+                            <p:outputLabel value="#{facturaBean.totalVentaFactura}"/>
                         </h:panelGrid>
                         <p:separator/>
-                        <p:commandButton  value="" icon="ui-icon-disk" title="Registrar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px; "/>
+                        <p:commandButton  value="" actionListener="#{facturaBean.guardarVenta()}"
+                                          icon="ui-icon-disk" title="Registrar" 
+                                          style="width: 70px; height: 40px; background-size: cover;font-size: 50px; "
+                                          update="formFactura"/>
                         <p:commandButton  value="" icon="ui-icon-print" title="Imprimir" style="width: 70px; height: 40px; background-size: cover;font-size: 50px "/>
-                        <p:commandButton  value="" icon="ui-icon-close" title="Cancelar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px;" />
+                        <p:commandButton  value="" action="#{facturaBean.limpiarFactura()}"
+                                          icon="ui-icon-close" title="Cancelar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px;"
+                                          update="formFactura"/>
 
                     </p:panel>
 
