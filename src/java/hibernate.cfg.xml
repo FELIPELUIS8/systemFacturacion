@@ -15,5 +15,6 @@
     <mapping resource="sys/model/Producto.hbm.xml"/>
     <mapping resource="sys/model/Vendedor.hbm.xml"/>
     <mapping resource="sys/model/Detallefactura.hbm.xml"/>
+     <mapping resource="sys/model/Usuario.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
