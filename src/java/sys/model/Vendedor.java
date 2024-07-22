@@ -1,5 +1,5 @@
 package sys.model;
-// Generated 15/06/2024 11:11:38 PM by Hibernate Tools 4.3.1
+// Generated 21/07/2024 02:15:13 PM by Hibernate Tools 4.3.1
 
 
 import java.util.HashSet;
@@ -13,19 +13,18 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "VENDEDOR")
-
 public class Vendedor  implements java.io.Serializable {
-
-
-     @Id
-      @GeneratedValue(strategy = GenerationType.IDENTITY)
+ @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CODVENDEDOR")
+
      private int codvendedor;
      private String nombres;
      private String apellidos;
      private String dui;
      private String celular;
      private String direccion;
+     private Set<Usuario> usuarios = new HashSet<Usuario>(0);
      private Set<Factura> facturas = new HashSet<Factura>(0);
 
     public Vendedor() {
@@ -40,13 +39,14 @@ public class Vendedor  implements java.io.Serializable {
         this.celular = celular;
         this.direccion = direccion;
     }
-    public Vendedor(int codvendedor, String nombres, String apellidos, String dui, String celular, String direccion, Set<Factura> facturas) {
+    public Vendedor(int codvendedor, String nombres, String apellidos, String dui, String celular, String direccion, Set<Usuario> usuarios, Set<Factura> facturas) {
        this.codvendedor = codvendedor;
        this.nombres = nombres;
        this.apellidos = apellidos;
        this.dui = dui;
        this.celular = celular;
        this.direccion = direccion;
+       this.usuarios = usuarios;
        this.facturas = facturas;
     }
    
@@ -91,6 +91,13 @@ public class Vendedor  implements java.io.Serializable {
     
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+    public Set<Usuario> getUsuarios() {
+        return this.usuarios;
+    }
+    
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
     public Set<Factura> getFacturas() {
         return this.facturas;

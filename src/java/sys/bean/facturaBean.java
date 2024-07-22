@@ -8,7 +8,9 @@ package sys.bean;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -60,6 +62,8 @@ public class facturaBean implements Serializable {
     private Long numeroFactura;
     private BigDecimal totalVentaFactura;
     private Vendedor vendedor;
+    private boolean enable;
+    private String fechaSistema;
 
     public facturaBean() {
         this.listaDetalleFactura = new ArrayList<>();
@@ -195,6 +199,10 @@ public class facturaBean implements Serializable {
 
     public void setVendedor(Vendedor vendedor) {
         this.vendedor = vendedor;
+    }
+
+    public boolean isEnable() {
+        return enable;
     }
 
     //Metodo para mostrar los datos de los clientes por medio del dialogClientes
@@ -670,6 +678,7 @@ public class facturaBean implements Serializable {
         this.listaDetalleFactura = new ArrayList<>();
         this.numeroFactura = null;
         this.totalVentaFactura = null;
+        this.disableBotton();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Limpiar factura", "Factura limpiada"));
     }
 
@@ -687,10 +696,10 @@ public class facturaBean implements Serializable {
             detalleFacturaDao dFDao = new detalleFacturaDaoimp();
 
             this.transation = this.session.beginTransaction();
-            
+
             // Establecer la fecha de registro a la fecha y hora actual
-        this.factura.setFecharegistro(new Date());
-        
+            this.factura.setFecharegistro(new Date());
+
             //datos para guardar en la tabla factura de la BD.
             this.factura.setNumerofactura(this.numeroFactura.toString());
             this.factura.setCliente(this.cliente);
@@ -725,5 +734,26 @@ public class facturaBean implements Serializable {
             }
         }
     }
+
+    //Metodo para activar o desactivar los controles de la factura
+    public void enableBotton() {
+        enable = true;
+    }
+
+    public void disableBotton() {
+        enable = false;
+    }
+
+    public String getFechaSistema() {
+        Calendar fecha = new GregorianCalendar();
+        int anio = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH);
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        
+        this.fechaSistema = (dia + "/" + mes + "/" + anio);
+        return fechaSistema;
+    }
+    
+    
 
 }

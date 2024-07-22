@@ -1,5 +1,5 @@
 package sys.model;
-// Generated 15/06/2024 11:11:38 PM by Hibernate Tools 4.3.1
+// Generated 21/07/2024 02:15:13 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -13,23 +13,17 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table (name = "PRODUCTO")
-
+@Table(name = "PRODUCTO")
 public class Producto  implements java.io.Serializable {
 
-     @Id
-     @GeneratedValue (strategy = GenerationType.IDENTITY)
-     @Column (name = "CODPRODUCTO")
+  @Id
+     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "CODPRODUCTO")
      private int codproducto;
-     @Column (name = "NOMBREPRODUCTO")
      private String nombreproducto;
-     @Column (name = "PRECIOVENTA")
      private BigDecimal precioventa;
-     @Column (name = "STOCKMINIMO")
      private int stockminimo;
-     @Column (name = "STOCKACTUAL")
      private int stockactual;
-     @Column (name = "CODIGOBARRA")
      private String codigobarra;
      private Set<Detallefactura> detallefacturas = new HashSet<Detallefactura>(0);
 
