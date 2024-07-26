@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+ <managed-bean>
+    <managed-bean-name>loginBean</managed-bean-name>
+    <managed-bean-class>sys.bean.loginBean</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+</managed-bean>
+
+<navigation-rule>
+    <from-view-id>/login.xhtml</from-view-id>
+    <navigation-case>
+        <from-outcome>bienvenido</from-outcome>
+        <to-view-id>/Views/Bienvenido.xhtml</to-view-id>
+    </navigation-case>
+</navigation-rule>
+<lifecycle>
+    <phase-listener>sys.claseAuxiliares.filtroUrl</phase-listener>
+</lifecycle>
+
+</faces-config>

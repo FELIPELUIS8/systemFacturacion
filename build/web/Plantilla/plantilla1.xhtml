@@ -21,9 +21,9 @@
                     <h:form>
                         <p:menubar>
                             <p:submenu label="Inicio" icon="pi pi-fw pi-file">
-                                <p:menuitem value="Pagina Inicio" icon="pi pi-fw pi-bookmark"/>
+                                <p:menuitem value="Pagina Inicio" url="#"/>
                                 <p:separator/>
-                                <p:menuitem value="Salir" icon="pi pi-fw pi-video"/>
+                                <p:menuitem value="Salir" action="#{loginBean.cerrarSession()}"/>
                             </p:submenu>     
 
                             <p:submenu label="Cliente"  icon="pi pi-fw pi-pencil">

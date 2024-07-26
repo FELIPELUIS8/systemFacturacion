@@ -19,7 +19,9 @@ public class Usuario  implements java.io.Serializable {
     @Column(name = "CODUSUARIO")
      private int codusuario;
      private Vendedor vendedor;
+     @Column(name = "USERNAME")
      private String username;
+     @Column(name = "PASSWORD")
      private String password;
 
     public Usuario() {

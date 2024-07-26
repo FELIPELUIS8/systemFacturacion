@@ -11,7 +11,7 @@ and open the template in the editor.
       xmlns:f="http://xmlns.jcp.org/jsf/core"> 
 
       <h:head>
-        <title>Login Form</title>
+        <title>Acceso al sistema</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <h:outputStylesheet name="/css/login.css"/>
     </h:head>
@@ -20,8 +20,8 @@ and open the template in the editor.
             <h:form id="loginForm">
                 <p:growl id="mensajeGeneral" sticky="true" showDetail="true" life="3000"/>
 
-                <p:panel header="Login" widgetVar="dlg" styleClass="login-panel">
-                    <h:panelGrid columns="2" cellpadding="5" styleClass="login-grid">
+                <p:panel header="Acceso al sistema de facturacion" widgetVar="dlg" styleClass="login-panel">
+                    <h:panelGrid columns="2" cellpadding="5" >
                         <h:outputLabel for="username" value="Username:" />
                         <p:inputText id="username" value="#{loginBean.usuario.username}" placeholder="Username" required="true" label="Username" 
                                      requiredMessage="Escriba el username por favor"/>
@@ -31,8 +31,8 @@ and open the template in the editor.
                                     requiredMessage="Escriba el Password por favor"/>
 
                         <f:facet name="footer">
-                            <p:commandButton value="Login" update="mensajeGeneral" actionListener="#{loginBean.login()}"
-                                             oncomplete="handleLoginRequest(xhr, status, args)" styleClass="ui-button-primary"/>
+                            <p:commandButton value="Login" update="loginForm mensajeGeneral" actionListener="#{loginBean.login}"
+                                             oncomplete="handleLoginRequest(xhr, status, args)" />
                         </f:facet>
                     </h:panelGrid>
                 </p:panel>
@@ -40,9 +40,10 @@ and open the template in the editor.
         </div>
         <script type="text/javascript">
             function handleLoginRequest(xhr, status, args){
-                if(args.validationFaided || !args.loggedln){
+                if(args.validationFaided || !args.loggedIn){
                     jQuery("#loginForm").effect('shake', {times: 3}, 350);
                 }else{
+                    jQuery("#mensajeGeneral").show(); // Asegúrate de que el p:growl sea visible
                     location.href = args.ruta;
                 }
             }

@@ -30,4 +30,14 @@
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/error.xhtml</location>
     </error-page>
+    
+    <listener>
+        <listener-class>sys.claseAuxiliares.AppContextListener</listener-class>
+    </listener>
+
+    <login-config>
+        <auth-method>BASIC</auth-method>
+        <realm-name>myRealm</realm-name>
+    </login-config>
+
 </web-app>

@@ -5,7 +5,7 @@
  */
 package sys.imp;
 
-import claseAuxiliarEncriptar.encriptarPassword;
+import sys.claseAuxiliares.encriptarPassword;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import sys.dao.usuarioDao;
@@ -21,7 +21,7 @@ public class UsuarioDaoimp implements usuarioDao {
     @Override
     public Usuario obtenerDatosPorUsuario(Usuario usuario) {
         Session session = HibernateUtil.getSessionFactory().openSession();
-        String hql = "FROM Usuario WHERE username = :username";
+        String hql = "FROM Usuario WHERE username=:username";
         Query q = session.createQuery(hql);
         q.setParameter("username", usuario.getUsername());
         return (Usuario) q.uniqueResult();

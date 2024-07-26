@@ -1,9 +1,11 @@
 package sys.bean;
 
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 import sys.dao.usuarioDao;
@@ -12,7 +14,9 @@ import sys.model.Usuario;
 
 @ManagedBean
 @SessionScoped
-public class loginBean {
+public class loginBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private Usuario usuario;
     private String username;
@@ -49,38 +53,37 @@ public class loginBean {
 
     // Login action
     // Login action
-    public void login() {
+    public void login(ActionEvent event) {
         RequestContext context = RequestContext.getCurrentInstance();
         FacesMessage message = null;
-        boolean loggedln = false;
+        boolean loggedIn = false;
         String ruta = "";
         usuarioDao uDao = new UsuarioDaoimp();
         this.usuario = uDao.login(this.usuario);
 
         if (this.usuario != null) {
-            loggedln = true;
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Success welcome", this.usuario.getUsername());
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", this.usuario.getUsername());
+            loggedIn = true;
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Welcome@", this.usuario.getUsername());
             ruta = "/systemFacturacion/faces/Views/Bienvenido.xhtml";
         } else {
-            // Failed login logic
-            message =  new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error de Acesso", "Username o Password son incorrecto.");
+            loggedIn = false;
+            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Login Error", "Invalid username or password.");
             this.usuario = new Usuario();
         }
-        
+
         FacesContext.getCurrentInstance().addMessage(null, message);
-        context.addCallbackParam("loggedln", loggedln);
+        context.addCallbackParam("loggedIn", loggedIn);
         context.addCallbackParam("ruta", ruta);
     }
 
-    // metodo para cerrar la session
-
+    // Logout action
     public String cerrarSession() {
-        this.username = null;
-        this.password = null;
-
-        HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        httpSession.invalidate();// para borrar la session
-        return "login";
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+        return "/login";
     }
 
 }
