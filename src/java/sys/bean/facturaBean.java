@@ -14,6 +14,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -46,6 +47,8 @@ public class facturaBean implements Serializable {
     private static final long serialVersionUID = 1L;
     Session session = null;
     Transaction transation = null;
+    @ManagedProperty("#{loginBean}")
+    private loginBean  lBenan;
     private Cliente cliente;
     private Integer codigoCliente;
     private String nombres;
@@ -204,6 +207,15 @@ public class facturaBean implements Serializable {
     public boolean isEnable() {
         return enable;
     }
+
+    public loginBean getlBenan() {
+        return lBenan;
+    }
+
+    public void setlBenan(loginBean lBenan) {
+        this.lBenan = lBenan;
+    }
+    
 
     //Metodo para mostrar los datos de los clientes por medio del dialogClientes
     public void agregarDatosCliente(Integer codcliente) {
@@ -688,7 +700,7 @@ public class facturaBean implements Serializable {
 
         this.session = null;
         this.transation = null;
-        this.vendedor.setCodvendedor(1);
+        this.vendedor.setCodvendedor(lBenan.getUsuario().getVendedor().getCodvendedor());
         try {
             this.session = HibernateUtil.getSessionFactory().openSession();
             Productodao pDao = new Productodaoimp();
@@ -749,11 +761,9 @@ public class facturaBean implements Serializable {
         int anio = fecha.get(Calendar.YEAR);
         int mes = fecha.get(Calendar.MONTH);
         int dia = fecha.get(Calendar.DAY_OF_MONTH);
-        
-        this.fechaSistema = (dia + "/" + mes + "/" + anio);
+
+        this.fechaSistema = (dia + "/" + (mes+1) + "/" + anio);
         return fechaSistema;
     }
-    
-    
 
 }

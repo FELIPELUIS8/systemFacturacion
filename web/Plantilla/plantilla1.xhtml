@@ -17,6 +17,16 @@
             <div id="top">
                 <ui:insert name="top"></ui:insert>
                 <h1>SISTEMA DE FACTURACION</h1>
+                <div id="sessionUsuario">
+                    <samp>
+                        <h:form>
+                            <h:outputLabel value="Hola, " style="font-size: 17px"/>
+                            <h:outputLabel value="#{loginBean.usuario.vendedor.nombres} " style="font-size: 17px"/>
+                            <p:commandButton id="btSalir" value="Cerrar session" action="#{loginBean.cerrarSession()}"/>
+                            
+                        </h:form>
+                    </samp>
+                </div>
                 <div id="menuPrincipal">
                     <h:form>
                         <p:menubar>
@@ -49,8 +59,8 @@
             </div>
 
 
-            <div id="content" class="center_content">
-                <ui:insert name="content">Content</ui:insert>
+              <div id="content" class="center_content">
+                <ui:insert name="content">content</ui:insert>
             </div>
 
             <div id="bottom">

@@ -10,7 +10,7 @@ and open the template in the editor.
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"> 
 
-      <h:head>
+    <h:head>
         <title>Acceso al sistema</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <h:outputStylesheet name="/css/login.css"/>
@@ -18,33 +18,35 @@ and open the template in the editor.
     <h:body>
         <div class="login">
             <h:form id="loginForm">
-                <p:growl id="mensajeGeneral" sticky="true" showDetail="true" life="3000"/>
+                    <p:growl id="growl" showDetail="true" sticky="false" life="5000" autoUpdate="true" />
 
-                <p:panel header="Acceso al sistema de facturacion" widgetVar="dlg" styleClass="login-panel">
+                <p:panel header="Acceso al sistema de facturacion" widgetVar="dlg">
                     <h:panelGrid columns="2" cellpadding="5" >
                         <h:outputLabel for="username" value="Username:" />
                         <p:inputText id="username" value="#{loginBean.usuario.username}" placeholder="Username" required="true" label="Username" 
                                      requiredMessage="Escriba el username por favor"/>
-                           
+
                         <h:outputLabel for="password" value="Password:" />
                         <p:password id="password" value="#{loginBean.usuario.password}" placeholder="Password" required="true" label="Password"
                                     requiredMessage="Escriba el Password por favor"/>
 
                         <f:facet name="footer">
-                            <p:commandButton value="Login" update="loginForm mensajeGeneral" actionListener="#{loginBean.login}"
-                                             oncomplete="handleLoginRequest(xhr, status, args)" />
+                            <p:commandButton value="Login" update=":loginForm" actionListener="#{loginBean.login(event)}"
+                                             oncomplete="handleLoginRequest(xhr, status, args)" 
+                                            />
                         </f:facet>
                     </h:panelGrid>
                 </p:panel>
             </h:form>
         </div>
         <script type="text/javascript">
-            function handleLoginRequest(xhr, status, args){
-                if(args.validationFaided || !args.loggedIn){
+            function handleLoginRequest(xhr, status, args) {
+                if (args.validationFailed || !args.loggedIn) {
                     jQuery("#loginForm").effect('shake', {times: 3}, 350);
-                }else{
-                    jQuery("#mensajeGeneral").show(); // Asegúrate de que el p:growl sea visible
+                } else {          
                     location.href = args.ruta;
+                    
+
                 }
             }
         </script>
