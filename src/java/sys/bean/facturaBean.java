@@ -7,6 +7,7 @@ package sys.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,6 +32,7 @@ import sys.model.Factura;
 import sys.model.Producto;
 import sys.util.HibernateUtil;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -39,6 +41,7 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
 import org.primefaces.event.RowEditEvent;
+import sys.claseAuxiliares.reporteFactura;
 import sys.dao.detalleFacturaDao;
 import sys.dao.facturaDao;
 import sys.imp.detalleFacturaDaoimp;
@@ -808,6 +811,30 @@ public class facturaBean implements Serializable {
         }
         
         return null;
+    }
+       
+       //Metodo para invocar el reporte y enviarle los parametros si es que necesita
+    public void verReporte() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        this.vendedor.setCodvendedor(lBenan.getUsuario().getVendedor().getCodvendedor());
+        int cc = this.cliente.getCodcliente();
+        int cv = this.vendedor.getCodvendedor();
+        int cf = this.factura.getCodfactura() + 1;
+        //invocamos al metodo guardarventa para almacenar la venta en las tablas correspondientes
+        this.guardarVenta();
+        
+        //Instancia hacia la clase reporteFactura
+        
+        reporteFactura rFactura = new reporteFactura();
+        
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
+        String ruta = servletContext.getRealPath("/Reporte/factura.jasper");
+        System.out.println("Cliente: " + cc);
+        System.out.println("Vendedor: "+ cv);
+        System.out.println("Factura: "+ cf);
+        
+        rFactura.getReporte(ruta, cc, cv, cf);       
+        FacesContext.getCurrentInstance().responseComplete();               
     }
 
 }

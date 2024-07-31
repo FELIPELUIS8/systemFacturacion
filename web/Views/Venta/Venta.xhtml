@@ -201,6 +201,7 @@
                                           action="#{facturaBean.disableBotton()}"
                                           update=":formFactura"/>
                         <p:commandButton  value="" icon="ui-icon-print" title="Imprimir" style="width: 70px; height: 40px; background-size: cover;font-size: 50px "
+                                          actionListener="#{facturaBean.verReporte()}"
                                           disabled="#{!facturaBean.enable}"/>
                         <p:commandButton  value="" action="#{facturaBean.limpiarFactura()}"
                                           icon="ui-icon-close" title="Cancelar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px;"
