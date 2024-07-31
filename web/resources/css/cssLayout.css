@@ -1,27 +1,3 @@
-#Agregar{
-
-    width: 120px; /* Ancho del botón */
-    height: 40px; /* Altura del botón */
-    background-color: #036fab; /* Color de fondo */
-    border: none; /* Sin borde */
-    border-radius: 5px; /* Borde redondeado */
-    color: white; /* Color del texto */
-    font-size: 16px; /* Tamaño de la fuente */
-    text-align: center; /* Alineación del texto */
-    cursor: pointer; /* Cursor tipo puntero */
-    padding: 10px; /* Espaciado interno */
-    background-image: url("/resources/images/agregar.png"); /* Ruta a tu imagen */
-    background-size: contain; /* Ajustar tamaño de la imagen */
-    background-repeat: no-repeat; /* No repetir la imagen */
-    background-position: center; /* Posicionar la imagen en el centro */
-    margin-right: 10px; /* Espacio entre el icono y el texto */
-
-}
-#divGeneral {
-    width: 1200px;
-    margin: 0 auto;
-}
-
 
 #menuPrincipal {
     margin-top: 20px;

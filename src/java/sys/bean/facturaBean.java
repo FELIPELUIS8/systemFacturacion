@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -29,6 +31,13 @@ import sys.model.Factura;
 import sys.model.Producto;
 import sys.util.HibernateUtil;
 import javax.faces.context.FacesContext;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
 import org.primefaces.event.RowEditEvent;
 import sys.dao.detalleFacturaDao;
 import sys.dao.facturaDao;
@@ -67,13 +76,27 @@ public class facturaBean implements Serializable {
     private Vendedor vendedor;
     private boolean enable;
     private String fechaSistema;
+    private FacturaLetra facturaletra;
 
     public facturaBean() {
         this.listaDetalleFactura = new ArrayList<>();
         this.factura = new Factura();
         this.vendedor = new Vendedor();
         this.cliente = new Cliente();
+        this.facturaletra = new FacturaLetra();
 
+    }
+
+    public FacturaLetra getFacturaletra() {
+        return facturaletra;
+    }
+
+    public void setFacturaletra(FacturaLetra facturaletra) {
+        this.facturaletra = facturaletra;
+    }
+    
+     public void calcularTotalVenta(double totalVenta) {
+        facturaletra.setTotalVenta(totalVenta);
     }
 
     public Cliente getCliente() {
@@ -764,6 +787,27 @@ public class facturaBean implements Serializable {
 
         this.fechaSistema = (dia + "/" + (mes+1) + "/" + anio);
         return fechaSistema;
+    }
+    
+       public String generarReporte() {
+        // Lógica para configurar los parámetros del reporte
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("totalVenta", facturaletra.getTotalVenta());
+        parameters.put("totalEnLetras", facturaletra.getTotalEnLetras());
+
+        try {
+            JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile("ruta/del/reporte.jasper");
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+
+            // Exportar el reporte según lo necesites (PDF, HTML, etc.)
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "ruta/del/reporte.pdf");
+
+            return "ruta/del/reporte"; // Cambia esto según la lógica de tu aplicación
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
     }
 
 }
