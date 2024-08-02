@@ -792,33 +792,15 @@ public class facturaBean implements Serializable {
         return fechaSistema;
     }
     
-       public String generarReporte() {
-        // Lógica para configurar los parámetros del reporte
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("totalVenta", facturaletra.getTotalVenta());
-        parameters.put("totalEnLetras", facturaletra.getTotalEnLetras());
-
-        try {
-            JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile("ruta/del/reporte.jasper");
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
-
-            // Exportar el reporte según lo necesites (PDF, HTML, etc.)
-            JasperExportManager.exportReportToPdfFile(jasperPrint, "ruta/del/reporte.pdf");
-
-            return "ruta/del/reporte"; // Cambia esto según la lógica de tu aplicación
-        } catch (JRException e) {
-            e.printStackTrace();
-        }
-        
-        return null;
-    }
-       
+ 
        //Metodo para invocar el reporte y enviarle los parametros si es que necesita
     public void verReporte() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         this.vendedor.setCodvendedor(lBenan.getUsuario().getVendedor().getCodvendedor());
         int cc = this.cliente.getCodcliente();
         int cv = this.vendedor.getCodvendedor();
         int cf = this.factura.getCodfactura() + 1;
+        
+        
         //invocamos al metodo guardarventa para almacenar la venta en las tablas correspondientes
         this.guardarVenta();
         
@@ -829,12 +811,17 @@ public class facturaBean implements Serializable {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ServletContext servletContext = (ServletContext) facesContext.getExternalContext().getContext();
         String ruta = servletContext.getRealPath("/Reporte/factura.jasper");
+        
+        // Mensajes de depuración
         System.out.println("Cliente: " + cc);
         System.out.println("Vendedor: "+ cv);
         System.out.println("Factura: "+ cf);
         
+        System.out.println("Ruta del reporte: " + ruta);
+        
         rFactura.getReporte(ruta, cc, cv, cf);       
-        FacesContext.getCurrentInstance().responseComplete();               
+        FacesContext.getCurrentInstance().responseComplete();
+             
     }
 
 }

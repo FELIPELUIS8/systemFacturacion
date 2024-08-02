@@ -27,8 +27,9 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author Luis Felipe Cantero
  */
 public class reporteFactura {
-    public void getReporte(String ruta, Integer codC,Integer codV,Integer codF) throws  ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
-        Connection conexion;
+
+    public void getReporte(String ruta, Integer codC, Integer codV, Integer codF) throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
+        Connection conexion = null;
         Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
         conexion = DriverManager.getConnection("jdbc:sqlserver://localhost:1433;databaseName=FACTURACION;encrypt=true;trustServerCertificate=true", "sa", "Luis12345.");
 
@@ -38,23 +39,28 @@ public class reporteFactura {
         parameter.put("CODVENDEDOR", codV);
         parameter.put("CODFACTURA", codF);
 
-
         try {
             File file = new File(ruta);
+            System.out.println("Ruta del archivo: " + file.getPath());
+            System.out.println("Archivo existe: " + file.exists());
 
             HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-
             httpServletResponse.setContentType("application/pdf");
             httpServletResponse.addHeader("Content-Type", "application/pdf");
 
             JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(file.getPath());
+            System.out.println("Reporte cargado correctamente.");
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameter, conexion);
+            System.out.println("Reporte llenado correctamente.");
 
-            JRExporter jrExporter = null;                      
-            jrExporter = new JRPdfExporter();
+            JRExporter jrExporter = new JRPdfExporter();
             jrExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
             jrExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, httpServletResponse.getOutputStream());
+
+            jrExporter.exportReport();
+            FacesContext.getCurrentInstance().responseComplete();
+            System.out.println("Reporte exportado correctamente.");
 
             if (jrExporter != null) {
                 try {
@@ -67,7 +73,7 @@ public class reporteFactura {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if (conexion != null) {
+            if (conexion != null && !conexion.isClosed()) {
                 try {
                     conexion.close();
                 } catch (Exception e) {

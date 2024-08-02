@@ -7,9 +7,11 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-          <h:outputStylesheet name="css/default.css"/>
-        <h:outputStylesheet name="css/cssLayout.css"/>
-        <title>Facelets Template</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+            <h:outputStylesheet name="css/default.css"/>
+            <h:outputStylesheet name="css/cssLayout.css"/>
+            <title>Facelets Template</title>
     </h:head>
 
     <h:body>
@@ -23,7 +25,7 @@
                             <h:outputLabel value="Hola, " style="font-size: 17px"/>
                             <h:outputLabel value="#{loginBean.usuario.vendedor.nombres} " style="font-size: 17px"/>
                             <p:commandButton id="btSalir" value="Cerrar session" action="#{loginBean.cerrarSession()}"/>
-                            
+
                         </h:form>
                     </samp>
                 </div>
@@ -59,7 +61,7 @@
             </div>
 
 
-              <div id="content" class="center_content">
+            <div id="content" class="center_content">
                 <ui:insert name="content">content</ui:insert>
             </div>
 

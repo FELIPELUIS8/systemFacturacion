@@ -6,339 +6,351 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
+    <h:head>
+        <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+                </h:head>
 
+                <body>
 
-    <body>
+                    <ui:composition template="./../../Plantilla/plantilla1.xhtml">
 
-        <ui:composition template="./../../Plantilla/plantilla1.xhtml">
+                        <ui:define name="content">
+                            <h2>REALIZAR VENTA</h2>
 
-            <ui:define name="content">
-                <h2>REALIZAR VENTA</h2>
-                
-                <h:form>
-                    <h:panelGrid width="1009px" style="margin: 0 auto; background-color: lightgrey" >
-                        <p:commandButton value="Nueva venta" actionListener="#{facturaBean.numeracionFactura()}"
-                                         style="width: 150px; height: 60px"
-                                         action="#{facturaBean.enableBotton()}"
-                                         update=":formFactura"/> 
-                    </h:panelGrid>
-                </h:form>
-                
-                <h:form id="formFactura">
-                    <!--situa los mensajes de errores en la parte superior derecha y actualiza los messege de Facemessege -->
-                    <p:growl id="growl" showDetail="true" sticky="false" life="5000" autoUpdate="true" />
-
-                    <p:panel header="_*_" style="width: 1000px; margin: 0 auto; text-align: center">
-                        <p:layout id="capaDatosClienteFactura" style="width: 100%; height: 250px">
-                            <p:layoutUnit id="datosCliente" position="center" style="padding: 5px; text-align: justify;
-                                          font-size: 14px;" size="300">
-
-                                <h:panelGrid id="gridBuscarporCodigoCliente" columns="5">
-                                    <p:outputLabel value="Codigo cliente:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:inputText value="#{facturaBean.codigoCliente}" size="12" style="margin-left: 5px"
-                                                 converter="#{Integer}" converterMessage="El codigo debe ser numerico"
-                                                 disabled="#{!facturaBean.enable}">
-                                        <p:ajax event="keyup" listener="#{facturaBean.agregarDatosCliente2()}"
-                                                update=":formFactura:gridDatosCliente"/>
-                                    </p:inputText>
-
-                                    <p:commandButton  value="" oncomplete="PF('dialogClientes').show()" icon="ui-icon-search" title="Buscar" 
-                                                      style="width: 70px; height: 30px; background-size: cover;font-size: 50px; margin: 5px "
-                                                      disabled="#{!facturaBean.enable}"/>
-                                    <p:outputLabel value="Fecha:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:outputLabel value="#{facturaBean.fechaSistema}" style="font-weight: bold;font-size: 16px"/>
-
+                            <h:form>
+                                <h:panelGrid width="1009px" style="margin: 0 auto; background-color: lightgrey" >
+                                    <p:commandButton value="Nueva venta" actionListener="#{facturaBean.numeracionFactura()}"
+                                                     style="width: 150px; height: 60px"
+                                                     action="#{facturaBean.enableBotton()}"
+                                                     update=":formFactura"/> 
                                 </h:panelGrid>
+                            </h:form>
 
-                                <h:panelGrid id="gridBuscarporNombreCliente" columns="2">
+                            <h:form id="formFactura">
+                                <!--situa los mensajes de errores en la parte superior derecha y actualiza los messege de Facemessege -->
+                                <p:growl id="growl" showDetail="true" sticky="false" life="5000" autoUpdate="true" />
 
-                                    <p:outputLabel value="Nombre cliente:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:inputText value="#{facturaBean.nombres}" size="12" style="margin-left: 1px;"
-                                                 disabled="#{!facturaBean.enable}">
-                                        <p:ajax event="keyup" listener="#{facturaBean.agregarDatosCliente3()}"
-                                                update=":formFactura:gridDatosCliente"/>
-                                    </p:inputText>
-                                </h:panelGrid>
+                                <p:panel header="_*_" style="width: 1000px; margin: 0 auto; text-align: center">
+                                    <p:layout id="capaDatosClienteFactura" style="width: 100%; height: 250px">
+                                        <p:layoutUnit id="datosCliente" position="center" style="padding: 5px; text-align: justify;
+                                                      font-size: 14px;" size="300">
 
-                                <h:panelGrid id="gridBuscarporIdentificacionCliente" columns="2">
+                                            <h:panelGrid id="gridBuscarporCodigoCliente" columns="5">
+                                                <p:outputLabel value="Codigo cliente:" style="font-weight: bold;font-size: 16px"/>
+                                                <p:inputText value="#{facturaBean.codigoCliente}" size="12" style="margin-left: 5px"
+                                                             converter="#{Integer}" converterMessage="El codigo debe ser numerico"
+                                                             disabled="#{!facturaBean.enable}">
+                                                    <p:ajax event="keyup" listener="#{facturaBean.agregarDatosCliente2()}"
+                                                            update=":formFactura:gridDatosCliente"/>
+                                                </p:inputText>
 
-                                    <p:outputLabel value="Identificación:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:inputText value="#{facturaBean.identificacion}" size="12" style="margin: 6px; margin-left: 13px"
-                                                 disabled="#{!facturaBean.enable}">
-                                        <p:ajax event="keyup" listener="#{facturaBean.agregarDatosCliente4()}"
-                                                update=":formFactura:gridDatosCliente"/>
+                                                <p:commandButton  value="" oncomplete="PF('dialogClientes').show()" icon="ui-icon-search" title="Buscar" 
+                                                                  style="width: 70px; height: 30px; background-size: cover;font-size: 50px; margin: 5px "
+                                                                  disabled="#{!facturaBean.enable}"/>
+                                                <p:outputLabel value="Fecha:" style="font-weight: bold;font-size: 16px"/>
+                                                <p:outputLabel value="#{facturaBean.fechaSistema}" style="font-weight: bold;font-size: 16px"/>
 
-                                    </p:inputText>
-                                </h:panelGrid>
+                                            </h:panelGrid>
 
+                                            <h:panelGrid id="gridBuscarporNombreCliente" columns="2">
 
-                                <p:separator/>
+                                                <p:outputLabel value="Nombre cliente:" style="font-weight: bold;font-size: 16px"/>
+                                                <p:inputText value="#{facturaBean.nombres}" size="12" style="margin-left: 1px;"
+                                                             disabled="#{!facturaBean.enable}">
+                                                    <p:ajax event="keyup" listener="#{facturaBean.agregarDatosCliente3()}"
+                                                            update=":formFactura:gridDatosCliente"/>
+                                                </p:inputText>
+                                            </h:panelGrid>
 
-                                <h:panelGrid id="gridDatosCliente" columns="2">
-                                    <p:outputLabel value="Nombre:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:outputLabel id="iblNombreCliente" value="#{facturaBean.cliente.nombres} #{facturaBean.cliente.apellidos}"/>
+                                            <h:panelGrid id="gridBuscarporIdentificacionCliente" columns="2">
 
-                                    <p:outputLabel value="Nit o CC:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:outputLabel id="iblNCCliente" value="#{facturaBean.cliente.identificacion}"/>
+                                                <p:outputLabel value="Identificación:" style="font-weight: bold;font-size: 16px"/>
+                                                <p:inputText value="#{facturaBean.identificacion}" size="12" style="margin: 6px; margin-left: 13px"
+                                                             disabled="#{!facturaBean.enable}">
+                                                    <p:ajax event="keyup" listener="#{facturaBean.agregarDatosCliente4()}"
+                                                            update=":formFactura:gridDatosCliente"/>
 
-                                    <p:outputLabel value="Celular:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:outputLabel id="iblCelularCliente" value="#{facturaBean.cliente.celular}"/>
-
-                                    <p:outputLabel value="Direccion:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:outputLabel id="iblDireccionCliente" value="#{facturaBean.cliente.dirrecion}"/>
-
-                                    <p:outputLabel value="Email:" style="font-weight: bold;font-size: 16px"/>
-                                    <p:outputLabel id="iblEmailCliente" value="#{facturaBean.cliente.email}"/>
-
-
-                                </h:panelGrid>
-
-                            </p:layoutUnit>
-
-
-                            <p:layoutUnit id="datosFactura" position="east" style="padding: 5px; text-align: center;
-                                          font-size: 14px;" size="300">
-                                <h:panelGrid columns="1" style="font-size: 24px; font-weight: bold; margin-top: 30px; margin: 0 auto">
-                                    FACTURA
-                                    <p:outputLabel value="#{facturaBean.numeroFactura}"/>
-                                </h:panelGrid>
+                                                </p:inputText>
+                                            </h:panelGrid>
 
 
-                            </p:layoutUnit>
-                        </p:layout>
-                        <p:separator/>
-                        <h:panelGrid id="gridBuscarProducto" columns="3">
-                            <p:outputLabel value="Codigo barra:" style=" margin: 6px; font-weight: bold;font-size: 16px;"/>
-                            <p:inputText id="txtBuscarCodigoBarra" value="#{facturaBean.codigobarra}" size="12" style="margin-left: 10px"
-                                         disabled="#{!facturaBean.enable}">
-                                <p:ajax event="keyup" listener="#{facturaBean.mostrarCantidadProducto1()}"
-                                        update=":formFactura:gridBuscarProducto"/>
-                            </p:inputText>
+                                            <p:separator/>
 
-                            <p:commandButton value="" icon="ui-icon-search" title="Buscar" oncomplete="PF('dialogProductos').show()" 
-                                             style="width: 70px; height: 30px; background-size: cover; font-size: 50px; margin: 5px"
-                                             disabled="#{!facturaBean.enable}"
-                                             update=":formFactura:digProductos"/>
-                        </h:panelGrid>
+                                            <h:panelGrid id="gridDatosCliente" columns="2">
+                                                <p:outputLabel value="Nombre:" style="font-weight: bold;font-size: 16px"/>
+                                                <p:outputLabel id="iblNombreCliente" value="#{facturaBean.cliente.nombres} #{facturaBean.cliente.apellidos}"/>
 
-                        <h:panelGrid id="gridBuscarProducto2" columns="2">
-                            <p:outputLabel value="Nombre prod :" style="font-weight: bold;font-size: 16px;margin:6px"/>
-                            <p:inputText id="txtBuscarPorNombre"  value="#{facturaBean.nombreproducto}" size="12" style="margin: 3px"
-                                         disabled="#{!facturaBean.enable}">
-                                <p:ajax event="keyup" listener="#{facturaBean.mostrarCantidadProducto2()}"
-                                        update=":formFactura:gridBuscarProducto2"/>
-                            </p:inputText>
+                                                <p:outputLabel value="Nit o CC:" style="font-weight: bold;font-size: 16px"/>
+                                                <p:outputLabel id="iblNCCliente" value="#{facturaBean.cliente.identificacion}"/>
+
+                                                <p:outputLabel value="Celular:" style="font-weight: bold;font-size: 16px"/>
+                                                <p:outputLabel id="iblCelularCliente" value="#{facturaBean.cliente.celular}"/>
+
+                                                <p:outputLabel value="Direccion:" style="font-weight: bold;font-size: 16px"/>
+                                                <p:outputLabel id="iblDireccionCliente" value="#{facturaBean.cliente.dirrecion}"/>
+
+                                                <p:outputLabel value="Email:" style="font-weight: bold;font-size: 16px"/>
+                                                <p:outputLabel id="iblEmailCliente" value="#{facturaBean.cliente.email}"/>
 
 
-                        </h:panelGrid>
-                        <p:separator/>
-                        <p:dataTable id="tablaProductosFactura" var="item" value="#{facturaBean.listaDetalleFactura}" 
-                                     editable="true"  rowIndexVar="rowindex">
-                            <p:ajax event="rowEdit" listener="#{facturaBean.onRowEdit}" update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura"/>
-                            <p:ajax event="rowEditCancel" listener="#{facturaBean.onRowCancel}" update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura"/>
+                                            </h:panelGrid>
 
-                            <p:column headerText="Codigo Barra">
-                                <h:outputText value="#{item.codbarra}"/>
-                            </p:column>
+                                        </p:layoutUnit>
 
-                            <p:column headerText="Producto">
-                                <h:outputText value="#{item.nombreproducto}"/>
-                            </p:column>
 
-                            <p:column headerText="Cantidad">
-                                <p:cellEditor>
-                                    <f:facet name="output">
-                                        <h:outputText value="#{item.cantidad}"/>
-                                    </f:facet>
-                                    <f:facet name="input">
-                                        <p:inputText value="#{item.cantidad}" label="Cantidad Producto"
-                                                     rendered="true" requiredMessage="Es necesaria una cantidad"
-                                                     converter="#{Integer}" converterMessage="Esta no es una cantidad correcta"
-                                                     validatorMessage="La cantidad debe ser mayor o igual a 1">
-                                            <f:validateLongRange minimum="1"/>
-                                        
+                                        <p:layoutUnit id="datosFactura" position="east" style="padding: 5px; text-align: center;
+                                                      font-size: 14px;" size="300">
+                                            <h:panelGrid columns="1" style="font-size: 24px; font-weight: bold; margin-top: 30px; margin: 0 auto">
+                                                FACTURA
+                                                <p:outputLabel value="#{facturaBean.numeroFactura}"/>
+                                            </h:panelGrid>
+
+
+                                        </p:layoutUnit>
+                                    </p:layout>
+                                    <p:separator/>
+                                    <h:panelGrid id="gridBuscarProducto" columns="6">
+                                        <p:outputLabel value="Codigo barra:" style=" margin: 6px; font-weight: bold;font-size: 16px;"/>
+                                        <p:inputText id="txtBuscarCodigoBarra" value="#{facturaBean.codigobarra}" size="12" style="margin-left: 10px"
+                                                     disabled="#{!facturaBean.enable}">
+                                            <p:ajax event="keyup" listener="#{facturaBean.mostrarCantidadProducto1()}"
+                                                    update=":formFactura:gridBuscarProducto"/>
                                         </p:inputText>
-                                    </f:facet>
+
+                                        <p:commandButton value="" icon="ui-icon-search" title="Buscar" oncomplete="PF('dialogProductos').show()" 
+                                                         style="width: 70px; height: 30px; background-size: cover; font-size: 50px; margin: 5px"
+                                                         disabled="#{!facturaBean.enable}"
+                                                         update=":formFactura:digProductos"/>
+                                        <h:panelGroup>-----------------------</h:panelGroup>
+                                        <h:panelGroup style="display: block; width: 100px; height: 70px; padding: 0; margin: 0;">
+                                            <p:commandLink id="btnimprimir" title="Exportar a pdf"
+                                                           actionListener="#{facturaBean.verReporte()}"
+                                                           disabled="#{!facturaBean.enable}"
+                                                           style="display: block; width: 100%; height: 100%; padding: 0; margin: 0;">
+                                                <h:graphicImage value="/resources/images/print.png" 
+                                                                style="width: 100%; height: 100%; object-fit: contain; padding: 0; margin: 0;"/>
+                                            </p:commandLink>
+                                        </h:panelGroup>
+                                        <h:panelGroup>-----------------------</h:panelGroup>
+                                    </h:panelGrid>
+
+                                    <h:panelGrid id="gridBuscarProducto2" columns="2">
+                                        <p:outputLabel value="Nombre prod :" style="font-weight: bold;font-size: 16px;margin:6px"/>
+                                        <p:inputText id="txtBuscarPorNombre"  value="#{facturaBean.nombreproducto}" size="12" style="margin: 3px"
+                                                     disabled="#{!facturaBean.enable}">
+                                            <p:ajax event="keyup" listener="#{facturaBean.mostrarCantidadProducto2()}"
+                                                    update=":formFactura:gridBuscarProducto2"/>
+                                        </p:inputText>
 
 
-                                </p:cellEditor>
-                            </p:column>
+                                    </h:panelGrid>
+                                    <p:separator/>
+                                    <p:dataTable id="tablaProductosFactura" var="item" value="#{facturaBean.listaDetalleFactura}" 
+                                                 editable="true"  rowIndexVar="rowindex">
+                                        <p:ajax event="rowEdit" listener="#{facturaBean.onRowEdit}" update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura"/>
+                                        <p:ajax event="rowEditCancel" listener="#{facturaBean.onRowCancel}" update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura"/>
 
-                            <p:column headerText="Precio venta">
-                                $ <h:outputText value="#{item.precioventa}"/>
-                            </p:column>
+                                        <p:column headerText="Codigo Barra">
+                                            <h:outputText value="#{item.codbarra}"/>
+                                        </p:column>
 
-                            <p:column headerText="Total">
-                                $ <h:outputText value="#{item.total}"/>
-                            </p:column>
+                                        <p:column headerText="Producto">
+                                            <h:outputText value="#{item.nombreproducto}"/>
+                                        </p:column>
 
-                            <p:column headerText="Editar">
-                                <p:rowEditor/>
-                            </p:column>
+                                        <p:column headerText="Cantidad">
+                                            <p:cellEditor>
+                                                <f:facet name="output">
+                                                    <h:outputText value="#{item.cantidad}"/>
+                                                </f:facet>
+                                                <f:facet name="input">
+                                                    <p:inputText value="#{item.cantidad}" label="Cantidad Producto"
+                                                                 rendered="true" requiredMessage="Es necesaria una cantidad"
+                                                                 converter="#{Integer}" converterMessage="Esta no es una cantidad correcta"
+                                                                 validatorMessage="La cantidad debe ser mayor o igual a 1">
+                                                        <f:validateLongRange minimum="1"/>
 
-                            <p:column headerText="Quitar">
-                                <p:commandLink value="X" actionListener="#{facturaBean.quitarProductoDetalleFactura(item.codbarra, rowindex)}"
-                                               title="Quitar producto" style="text-decoration: none; color: red"
-                                               update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura"
-                                               process="@this" 
-                                               oncomplete="PF('confirmationDialog').hide()">
-                                    <p:confirm header="Confirmar" message="¿Estás seguro de que deseas eliminar este producto?" icon="ui-icon-alert" />
-                                </p:commandLink>
-
-                            </p:column>
-
-                        </p:dataTable>
-                        <p:separator/>
-                        <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 24px; margin: 0 auto; color: green">
-                            TOTAL VENTA $
-                            <p:outputLabel value="#{facturaBean.totalVentaFactura}"/>
-                        </h:panelGrid>
-                        <p:separator/>
-                        <p:commandButton  value="" actionListener="#{facturaBean.guardarVenta()}"
-                                          icon="ui-icon-disk" title="Registrar" 
-                                          style="width: 70px; height: 40px; background-size: cover;font-size: 50px;"
-                                          disabled="#{!facturaBean.enable}"
-                                          action="#{facturaBean.disableBotton()}"
-                                          update=":formFactura"/>
-                        <p:commandButton  value="" icon="ui-icon-print" title="Imprimir" style="width: 70px; height: 40px; background-size: cover;font-size: 50px "
-                                          actionListener="#{facturaBean.verReporte()}"
-                                          disabled="#{!facturaBean.enable}"/>
-                        <p:commandButton  value="" action="#{facturaBean.limpiarFactura()}"
-                                          icon="ui-icon-close" title="Cancelar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px;"
-                                          disabled="#{!facturaBean.enable}"
-                                          update=":formFactura"/>
-
-                    </p:panel>
-
-                    <!--Dialog para mostrar todos los clientes del sistema-->
-                    <p:dialog id="digClientes" widgetVar="dialogClientes" modal="true" resizable="false"
-                              showEffect="explode" hideEffect="explode">
-
-                        <p:dataTable id="tablaClientes" style="width: 1000px" paginator="true" paginatorPosition="top"
-                                     var= "ct"  value="#{clienteBean.listaCliente}" emptyMessage="No hay datos de clientes">
-                            <p:column headerText="Codigo">
-                                <h:outputText value="#{ct.codcliente}"/> 
-                            </p:column>                                 
-                            <p:column headerText="Nombres y Apellidos">
-                                <h:outputText value="#{ct.nombres} #{ct.apellidos}"/> 
-                            </p:column>
-
-                            <p:column headerText="Identificacion">
-                                <h:outputText value="#{ct.identificacion}"/> 
-                            </p:column>
+                                                    </p:inputText>
+                                                </f:facet>
 
 
-                            <p:column headerText="Celular">
-                                <h:outputText value="#{ct.celular}"/> 
-                            </p:column>
+                                            </p:cellEditor>
+                                        </p:column>
 
-                            <p:column headerText="Direccion">
-                                <h:outputText value="#{ct.dirrecion}"/> 
-                            </p:column>
+                                        <p:column headerText="Precio venta">
+                                            $ <h:outputText value="#{item.precioventa}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Total">
+                                            $ <h:outputText value="#{item.total}"/>
+                                        </p:column>
+
+                                        <p:column headerText="Editar">
+                                            <p:rowEditor/>
+                                        </p:column>
+
+                                        <p:column headerText="Quitar">
+                                            <p:commandLink value="X" actionListener="#{facturaBean.quitarProductoDetalleFactura(item.codbarra, rowindex)}"
+                                                           title="Quitar producto" style="text-decoration: none; color: red"
+                                                           update=":formFactura:tablaProductosFactura :formFactura:gridTotalFactura"
+                                                           process="@this" 
+                                                           oncomplete="PF('confirmationDialog').hide()">
+                                                <p:confirm header="Confirmar" message="¿Estás seguro de que deseas eliminar este producto?" icon="ui-icon-alert" />
+                                            </p:commandLink>
+
+                                        </p:column>
+
+                                    </p:dataTable>
+                                    <p:separator/>
+                                    <h:panelGrid id="gridTotalFactura" columns="2" style="font-size: 24px; margin: 0 auto; color: green">
+                                        TOTAL VENTA $
+                                        <p:outputLabel value="#{facturaBean.totalVentaFactura}"/>
+                                    </h:panelGrid>
+                                    <p:separator/>
+                                    <p:commandButton  value="" actionListener="#{facturaBean.guardarVenta()}"
+                                                      icon="ui-icon-disk" title="Registrar" 
+                                                      style="width: 70px; height: 40px; background-size: cover;font-size: 50px;"
+                                                      disabled="#{!facturaBean.enable}"
+                                                      action="#{facturaBean.disableBotton()}"
+                                                      update=":formFactura"/>
+
+                                    <p:commandButton  value="" action="#{facturaBean.limpiarFactura()}"
+                                                      icon="ui-icon-close" title="Cancelar" style="width: 70px; height: 40px; background-size: cover;font-size: 50px;"
+                                                      disabled="#{!facturaBean.enable}"
+                                                      update=":formFactura"/>
+
+                                </p:panel>
+
+                                <!--Dialog para mostrar todos los clientes del sistema-->
+                                <p:dialog id="digClientes" widgetVar="dialogClientes" modal="true" resizable="false"
+                                          showEffect="explode" hideEffect="explode">
+
+                                    <p:dataTable id="tablaClientes" style="width: 1000px" paginator="true" paginatorPosition="top"
+                                                 var= "ct"  value="#{clienteBean.listaCliente}" emptyMessage="No hay datos de clientes">
+                                        <p:column headerText="Codigo">
+                                            <h:outputText value="#{ct.codcliente}"/> 
+                                        </p:column>                                 
+                                        <p:column headerText="Nombres y Apellidos">
+                                            <h:outputText value="#{ct.nombres} #{ct.apellidos}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="Identificacion">
+                                            <h:outputText value="#{ct.identificacion}"/> 
+                                        </p:column>
 
 
-                            <p:column headerText="Email">
-                                <h:outputText value="#{ct.email}"/> 
-                            </p:column>
+                                        <p:column headerText="Celular">
+                                            <h:outputText value="#{ct.celular}"/> 
+                                        </p:column>
 
-                            <p:column headerText="">
-                                <p:commandButton value="Seleccionar" actionListener="#{facturaBean.agregarDatosCliente(ct.codcliente)}"
-                                                 oncomplete="PF('dialogClientes').hide();"
-                                                 update=":formFactura:gridDatosCliente"> 
-                                </p:commandButton>
-                            </p:column>
-
-                        </p:dataTable>
-                        <p:commandButton value="" icon="ui-icon-close" title="Cerrar" oncomplete="PF('dialogClientes').hide();" 
-                                         style="width: 70px; height: 40px; background-size: cover;font-size: 50px"/>
-                    </p:dialog>
-
-                    <!--Dialog para mostrar todos los productos del sistema-->
-                    <p:dialog id="digProductos" widgetVar="dialogProductos" modal="true" resizable="false"
-                              showEffect="explode" hideEffect="explode">
-
-                        <p:dataTable id="tablaProductos" style="width: 1000px" paginator="true" paginatorPosition="top"
-                                     var= "pro"  value="#{productoBean.listaProducto}" emptyMessage="No hay datos de producto">
-                            <p:column headerText="CodigoProducto">
-                                <h:outputText value="#{pro.codproducto}"/> 
-                            </p:column>                                 
-                            <p:column headerText="NombresProducto">
-                                <h:outputText value="#{pro.nombreproducto}"/> 
-                            </p:column>
-
-                            <p:column headerText="PrecioVenta">
-                                $  <h:outputText value="#{pro.precioventa}"/> 
-                            </p:column>
+                                        <p:column headerText="Direccion">
+                                            <h:outputText value="#{ct.dirrecion}"/> 
+                                        </p:column>
 
 
-                            <p:column headerText="StockMinimo">
-                                <h:outputText value="#{pro.stockminimo}"/> 
-                            </p:column>
+                                        <p:column headerText="Email">
+                                            <h:outputText value="#{ct.email}"/> 
+                                        </p:column>
 
-                            <p:column headerText="StockActual">
-                                <h:outputText value="#{pro.stockactual}"/> 
-                            </p:column>
+                                        <p:column headerText="">
+                                            <p:commandButton value="Seleccionar" actionListener="#{facturaBean.agregarDatosCliente(ct.codcliente)}"
+                                                             oncomplete="PF('dialogClientes').hide();"
+                                                             update=":formFactura:gridDatosCliente"> 
+                                            </p:commandButton>
+                                        </p:column>
+
+                                    </p:dataTable>
+                                    <p:commandButton value="" icon="ui-icon-close" title="Cerrar" oncomplete="PF('dialogClientes').hide();" 
+                                                     style="width: 70px; height: 40px; background-size: cover;font-size: 50px"/>
+                                </p:dialog>
+
+                                <!--Dialog para mostrar todos los productos del sistema-->
+                                <p:dialog id="digProductos" widgetVar="dialogProductos" modal="true" resizable="false"
+                                          showEffect="explode" hideEffect="explode">
+
+                                    <p:dataTable id="tablaProductos" style="width: 1000px" paginator="true" paginatorPosition="top"
+                                                 var= "pro"  value="#{productoBean.listaProducto}" emptyMessage="No hay datos de producto">
+                                        <p:column headerText="CodigoProducto">
+                                            <h:outputText value="#{pro.codproducto}"/> 
+                                        </p:column>                                 
+                                        <p:column headerText="NombresProducto">
+                                            <h:outputText value="#{pro.nombreproducto}"/> 
+                                        </p:column>
+
+                                        <p:column headerText="PrecioVenta">
+                                            $  <h:outputText value="#{pro.precioventa}"/> 
+                                        </p:column>
 
 
-                            <p:column headerText="CodigoBarra">
-                                <h:outputText value="#{pro.codigobarra}"/> 
-                            </p:column>
+                                        <p:column headerText="StockMinimo">
+                                            <h:outputText value="#{pro.stockminimo}"/> 
+                                        </p:column>
 
-                            <p:column headerText="">
-                                <p:commandButton value="Seleccionar" actionListener="#{facturaBean.pedirCantidadProducto(pro.codigobarra)}"
-                                                 oncomplete="PF('dialogCantidadProducto').show();"
-                                                 update=":formFactura:digCantidadProducto"> 
-                                </p:commandButton>
-                            </p:column>
+                                        <p:column headerText="StockActual">
+                                            <h:outputText value="#{pro.stockactual}"/> 
+                                        </p:column>
 
 
-                        </p:dataTable>
-                        <p:commandButton value="" icon="ui-icon-close" title="Cerrar" oncomplete="PF('dialogProductos').hide();" 
-                                         style="width: 70px; height: 40px; background-size: cover;font-size: 50px"/>
-                    </p:dialog>
+                                        <p:column headerText="CodigoBarra">
+                                            <h:outputText value="#{pro.codigobarra}"/> 
+                                        </p:column>
 
-                    <!--Dialog para pedir la cantidad del producto por el dialog-->
-                    <p:dialog id="digCantidadProducto" widgetVar="dialogCantidadProducto" header="Cantidad" modal="true">
-                        Cantidad de  producto a vender:
-                        <p:inputText id="txtCantidadProducto" value="#{facturaBean.cantidadProducto}"/>
-                        <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProducto()}"
-                                         update=":formFactura:tablaProductosFactura :formFactura:digCantidadProducto :formFactura:gridTotalFactura"
-                                         oncomplete="PF('dialogCantidadProducto').hide(); PF('dialogProductos').hide();"/>
+                                        <p:column headerText="">
+                                            <p:commandButton value="Seleccionar" actionListener="#{facturaBean.pedirCantidadProducto(pro.codigobarra)}"
+                                                             oncomplete="PF('dialogCantidadProducto').show();"
+                                                             update=":formFactura:digCantidadProducto"> 
+                                            </p:commandButton>
+                                        </p:column>
 
-                    </p:dialog>
 
-                    <!--Dialog para pedir la cantidad del producto por codigo de barra-->
-                    <p:dialog id="digCantidadProducto1" widgetVar="dialogCantidadProducto1" header="Cantidad" modal="true">
-                        Cantidad de  producto a vender:
-                        <p:inputText id="txtCantidadProducto1" value="#{facturaBean.cantidadProducto1}"/>
-                        <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProducto1()}"
-                                         update=":formFactura:tablaProductosFactura :formFactura:digCantidadProducto1 :formFactura:gridTotalFactura"
-                                         oncomplete="PF('dialogCantidadProducto1').hide();"/>
+                                    </p:dataTable>
+                                    <p:commandButton value="" icon="ui-icon-close" title="Cerrar" oncomplete="PF('dialogProductos').hide();" 
+                                                     style="width: 70px; height: 40px; background-size: cover;font-size: 50px"/>
+                                </p:dialog>
 
-                    </p:dialog>
+                                <!--Dialog para pedir la cantidad del producto por el dialog-->
+                                <p:dialog id="digCantidadProducto" widgetVar="dialogCantidadProducto" header="Cantidad" modal="true">
+                                    Cantidad de  producto a vender:
+                                    <p:inputText id="txtCantidadProducto" value="#{facturaBean.cantidadProducto}"/>
+                                    <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProducto()}"
+                                                     update=":formFactura:tablaProductosFactura :formFactura:digCantidadProducto :formFactura:gridTotalFactura"
+                                                     oncomplete="PF('dialogCantidadProducto').hide(); PF('dialogProductos').hide();"/>
 
-                    <!--Dialog para pedir la cantidad del producto por nombre del porducto-->
-                    <p:dialog id="digCantidadProducto2" widgetVar="dialogCantidadProducto2" header="Cantidad" modal="true">
-                        Cantidad de  producto a vender:
-                        <p:inputText id="txtCantidadProducto2" value="#{facturaBean.cantidadProducto2}"/>
-                        <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProducto2()}"
-                                         update=":formFactura:tablaProductosFactura :formFactura:digCantidadProducto2 :formFactura:gridTotalFactura"
-                                         oncomplete="PF('dialogCantidadProducto2').hide();"/>
+                                </p:dialog>
 
-                    </p:dialog>
+                                <!--Dialog para pedir la cantidad del producto por codigo de barra-->
+                                <p:dialog id="digCantidadProducto1" widgetVar="dialogCantidadProducto1" header="Cantidad" modal="true">
+                                    Cantidad de  producto a vender:
+                                    <p:inputText id="txtCantidadProducto1" value="#{facturaBean.cantidadProducto1}"/>
+                                    <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProducto1()}"
+                                                     update=":formFactura:tablaProductosFactura :formFactura:digCantidadProducto1 :formFactura:gridTotalFactura"
+                                                     oncomplete="PF('dialogCantidadProducto1').hide();"/>
 
-                    <!-- Dialogo de confirmación para quitar un producto de la factura -->
-                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="confirmationDialog">
-                        <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                    </p:confirmDialog>
+                                </p:dialog>
 
-                </h:form>
+                                <!--Dialog para pedir la cantidad del producto por nombre del porducto-->
+                                <p:dialog id="digCantidadProducto2" widgetVar="dialogCantidadProducto2" header="Cantidad" modal="true">
+                                    Cantidad de  producto a vender:
+                                    <p:inputText id="txtCantidadProducto2" value="#{facturaBean.cantidadProducto2}"/>
+                                    <p:commandButton value="Aceptar" actionListener="#{facturaBean.agregarDatosProducto2()}"
+                                                     update=":formFactura:tablaProductosFactura :formFactura:digCantidadProducto2 :formFactura:gridTotalFactura"
+                                                     oncomplete="PF('dialogCantidadProducto2').hide();"/>
 
-            </ui:define>
+                                </p:dialog>
 
-        </ui:composition>
+                                <!-- Dialogo de confirmación para quitar un producto de la factura -->
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" widgetVar="confirmationDialog">
+                                    <p:commandButton value="Sí" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
 
-    </body>
-</html>
+                            </h:form>
+
+                        </ui:define>
+
+                    </ui:composition>
+
+                </body>
+                </html>
 
